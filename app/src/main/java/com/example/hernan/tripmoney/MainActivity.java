@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity
     //{
          //   new Titular("HERNAN", "Subtítulo largo 1", R.mipmap.ic_launcher),
          //   new Titular("GERMAN", "Subtítulo largo 2",R.mipmap.ic_launcher),
-
     //};
 
     // Inflo el toolbar con los botones
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity
                         manejador_db_usuarios= new DataBaseManager(MainActivity.this);
 
                         // Elimino el registro de esa tabla
-                        manejador_db_usuarios.eliminar(posicion);
+                        manejador_db_usuarios.eliminar(posicion+1);
 
                         manejador_db_usuarios.CerrarBaseDatos();
 

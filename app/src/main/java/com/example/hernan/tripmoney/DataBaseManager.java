@@ -114,8 +114,13 @@ public class DataBaseManager
 
     public void EliminarTablaBaseDatos_Usuarios()
     {
+        // Elimino la tabla Usuarios
         db.execSQL("DROP TABLE IF EXISTS usuarios");
         db.execSQL(DataBaseManager.TABLA_USUARIOS);
+
+        // Tambien elimino la tabla gastos porque si no tengo usuarios no tengo gastos
+        db.execSQL("DROP TABLE IF EXISTS gastos");
+        db.execSQL(DataBaseManager.TABLA_GASTOS);
      //   db.execSQL(DataBaseManager.NOMBRE_TABLA_USUARIOS);
     }
 
