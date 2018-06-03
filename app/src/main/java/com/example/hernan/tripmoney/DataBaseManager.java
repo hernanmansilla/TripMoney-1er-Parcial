@@ -85,12 +85,20 @@ public class DataBaseManager
         db.delete(NOMBRE_TABLA_GASTOS, COLUMNA_ID + "=" + id,null);
     }
 
-    public void modificar(String nombre,String descripcion, float NuevoDebe, float NuevoAFavor)
+    public void modificar_usuarios(String nombre,String contraseña, int id)
     {
-        float ValorGuardado_Debe = (float) (Math.round (NuevoDebe * 100)/100.0);
-        float ValorGuardado_AFavor = (float) (Math.round (NuevoAFavor * 100)/100.0);
+        //   float ValorGuardado_Debe = (float) (Math.round (NuevoDebe * 100)/100.0);
+        //   float ValorGuardado_AFavor = (float) (Math.round (NuevoAFavor * 100)/100.0);
 
-        db.update(NOMBRE_TABLA_GASTOS, generarContentValues_gastos(nombre,descripcion,ValorGuardado_Debe,ValorGuardado_AFavor),COLUMNA_NOMBRE + "=?",new String[]{nombre});
+        db.update(NOMBRE_TABLA_USUARIOS, generarContentValues_usuarios(nombre,contraseña),COLUMNA_ID + "=" + id,null);
+    }
+
+    public void modificar_gastos(String nombre,String descripcion, float NuevoDebe, float NuevoAFavor, int id)
+    {
+     //   float ValorGuardado_Debe = (float) (Math.round (NuevoDebe * 100)/100.0);
+     //   float ValorGuardado_AFavor = (float) (Math.round (NuevoAFavor * 100)/100.0);
+
+        db.update(NOMBRE_TABLA_GASTOS, generarContentValues_gastos(nombre,descripcion,NuevoDebe,NuevoAFavor),COLUMNA_ID + "=" + id,null);
     }
 
     public Cursor CargarCursor_Usuarios()

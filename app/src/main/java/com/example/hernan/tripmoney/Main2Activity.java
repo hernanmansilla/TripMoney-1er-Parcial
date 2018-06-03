@@ -14,14 +14,20 @@ import android.widget.TextView;
 
 public class Main2Activity extends AppCompatActivity
 {
-    private DataBaseManager db;
-    private Cursor cursor;
+    private float Gasto_nuevo;
+    private Button Boton_agregar_gasto;
+    private EditText Descripcion_gasto;
+    private EditText Gasto_nuevo_string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        Gasto_nuevo_string = (EditText) findViewById(R.id.Gasto_nuevo);
+        Descripcion_gasto = (EditText) findViewById(R.id.Descripcion);
+        Boton_agregar_gasto = (Button) findViewById(R.id.Boton_agregar_gasto);
 
         // Recibo los datos del MainActivity
     //    Bundle extras = getIntent().getExtras();
@@ -35,7 +41,7 @@ public class Main2Activity extends AppCompatActivity
 
         TabHost.TabSpec spec=tabs.newTabSpec("mitab1");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("USUARIO", res.getDrawable(android.R.drawable.ic_btn_speak_now));
+        spec.setIndicator("NUEVO GASTO", res.getDrawable(android.R.drawable.ic_btn_speak_now));
         tabs.addTab(spec);
 
         spec=tabs.newTabSpec("mitab2");
@@ -44,6 +50,22 @@ public class Main2Activity extends AppCompatActivity
         tabs.addTab(spec);
 
         tabs.setCurrentTab(0);
+
+        Boton_agregar_gasto.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                Gasto_nuevo = 0;
+            }
+        });
+
+        tabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s)
+            {
+                Gasto_nuevo = 1;
+            }
+        });
 
         // Abro la base de datos
       //  db = new DataBaseManager(this);

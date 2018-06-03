@@ -1,20 +1,14 @@
 package com.example.hernan.tripmoney;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
 
-import static com.example.hernan.tripmoney.LoginUsuario.manejador_db_usuarios;
+import static com.example.hernan.tripmoney.LoginUsuario.manejador_db;
 
 public class SettingActivity extends PreferenceActivity
 {
@@ -57,11 +51,11 @@ public class SettingActivity extends PreferenceActivity
                         public void onClick(DialogInterface dialog, int which)
                         {
                             // Aca tengo que borrar la base de datos
-                            manejador_db_usuarios= new DataBaseManager(SettingActivity.this);
+                            manejador_db= new DataBaseManager(SettingActivity.this);
 
-                            manejador_db_usuarios.EliminarTablaBaseDatos_Usuarios();
+                            manejador_db.EliminarTablaBaseDatos_Usuarios();
 
-                            manejador_db_usuarios.CerrarBaseDatos();
+                            manejador_db.CerrarBaseDatos();
 
                             Toast.makeText(SettingActivity.this,"Base de Datos borrada",Toast.LENGTH_SHORT).show();
                             dialog.cancel();

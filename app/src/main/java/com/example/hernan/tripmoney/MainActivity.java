@@ -1,49 +1,24 @@
 package com.example.hernan.tripmoney;
 
 //https://www.youtube.com/watch?v=3dBZHtw_J9E
-import android.app.Activity;
+
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.app.FragmentTransaction;
-import android.net.Uri;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-
-import static com.example.hernan.tripmoney.LoginUsuario.manejador_db_usuarios;
-import static com.example.hernan.tripmoney.LoginUsuario.cursor_usuarios;
-import static com.example.hernan.tripmoney.LoginUsuario.manejador_db_gastos;
+import static com.example.hernan.tripmoney.LoginUsuario.manejador_db;
 import static com.example.hernan.tripmoney.LoginUsuario.cursor_gastos;
-import static com.example.hernan.tripmoney.R.layout.listitem_titular;
-import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -55,16 +30,10 @@ public class MainActivity extends AppCompatActivity
     private String Descripcion_BD;
     private float Debe_BD;
     private float Afavor_BD;
+    private int  indice_buscador=0;
 
     public ListView ListaDatos;
     ArrayList<Datos> Lista;
-
-    // Inicializo los datos de mi item seleccionado dentro de la lista
-    //static public Titular[] Personas = new Titular[10];
-    //{
-         //   new Titular("HERNAN", "Subtítulo largo 1", R.mipmap.ic_launcher),
-         //   new Titular("GERMAN", "Subtítulo largo 2",R.mipmap.ic_launcher),
-    //};
 
     // Inflo el toolbar con los botones
     @Override
@@ -118,15 +87,16 @@ public class MainActivity extends AppCompatActivity
      {
          final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
-      //   final int posicion = (int) ListaDatos.getItemAtPosition(info.position);
-
-         final int posicion = info.position;
-
          switch (item.getItemId())
          {
             case R.id.Modificar:
 
-                Toast.makeText(MainActivity.this, "Modificado", Toast.LENGTH_SHORT).show();
+                finish();
+                Intent Activity_Main_Modificar = new Intent(MainActivity.this, MainActivityModificar.class);
+                // Le paso a traves de un intent el id del item que toque para modificarlo
+                Activity_Main_Modificar.putExtra("ID_Press",Lista.get(info.position).getId());
+                startActivity(Activity_Main_Modificar);
+
                 return true;
 
             case R.id.Eliminar:
@@ -142,12 +112,12 @@ public class MainActivity extends AppCompatActivity
                     {
                         Toast.makeText(MainActivity.this,"Registro eliminado",Toast.LENGTH_SHORT).show();
                         // Aca tengo que borrar la base de datos
-                        manejador_db_usuarios= new DataBaseManager(MainActivity.this);
+                        manejador_db= new DataBaseManager(MainActivity.this);
 
                         // Elimino el registro de esa tabla
-                        manejador_db_usuarios.eliminar(posicion+1);
+                        manejador_db.eliminar(Lista.get(info.position).getId());
 
-                        manejador_db_usuarios.CerrarBaseDatos();
+                        manejador_db.CerrarBaseDatos();
 
                         Toast.makeText(MainActivity.this,"Base de Datos borrada",Toast.LENGTH_SHORT).show();
                         dialog.cancel();
@@ -164,17 +134,14 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        //        prefs.setSelectable(false);
                         dialog.cancel();
-                        //       finish();
                     }
                 });
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
-
-              //  Toast.makeText(MainActivity.this, "Eliminado", Toast.LENGTH_SHORT).show();
                 return true;
+
             default:
                 return super.onContextItemSelected(item);
         }
@@ -196,10 +163,9 @@ public class MainActivity extends AppCompatActivity
         Lista = new ArrayList<Datos>();
 
         // Aca tengo que levantar de la base de datos los usuarios
-
         // Abro la base de datos y tomo el cursor para ver mis usuarios y cargarlos en el listview
-        manejador_db_gastos = new DataBaseManager(MainActivity.this);
-        cursor_gastos = manejador_db_gastos.CargarCursor_Gastos();
+        manejador_db = new DataBaseManager(MainActivity.this);
+        cursor_gastos = manejador_db.CargarCursor_Gastos();
 
         cursor_gastos.moveToFirst();
 
@@ -217,11 +183,12 @@ public class MainActivity extends AppCompatActivity
                     // Inserto en mi objeto para mostrar en el listview
                     Lista.add(new Datos(Id_BD,Nombre_BD,Debe_BD,Afavor_BD,R.mipmap.ic_launcher));
 
+                    indice_buscador++;
                     cursor_gastos.moveToNext();
 
-                }while (Id_BD <cursor_gastos.getCount());
+                }while (indice_buscador <cursor_gastos.getCount());
 
-            manejador_db_gastos.CerrarBaseDatos();
+            manejador_db.CerrarBaseDatos();
             cursor_gastos.close();
         }
 
@@ -238,15 +205,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id)
             {
-
                 //Alternativa 1:
             //    String opcionSeleccionada = ((Titular)a.getItemAtPosition(position)).getTitulo();
                 Datos obj = (Datos) a.getItemAtPosition(position);
 
+                finish();
                 Intent Activity2 = new Intent(MainActivity.this, Main2Activity.class);
-        //        Activity2.putExtra("Titulo",Personas[position].getTitulo());
+                Activity2.putExtra("ID_Press",Lista.get(position).getId());
                 startActivity(Activity2);
-
             }
         });
 

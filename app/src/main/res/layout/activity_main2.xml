@@ -4,43 +4,101 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <TabHost android:id="@android:id/tabhost"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TabHost
+        android:id="@android:id/tabhost"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TabWidget android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@android:id/tabs" />
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <FrameLayout android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@android:id/tabcontent" >
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <LinearLayout android:id="@+id/tab1"
-                    android:orientation="vertical"
+                <RelativeLayout
+                    android:id="@+id/tab1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <TextView android:id="@+id/textView1"
-                        android:text="Contenido Tab 1"
+                    <Button
+                        android:id="@+id/Boton_agregar_gasto"
+                        android:layout_width="148dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="150dp"
+                        android:text="AGREGAR" />
+
+                    <EditText
+                        android:id="@+id/Gasto_nuevo"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                        android:layout_height="56dp"
+                        android:layout_below="@+id/Gasto_nuevo_text"
+                        android:layout_centerHorizontal="true"
+                        android:ems="10"
+                        android:inputType="numberDecimal" />
 
-                <LinearLayout android:id="@+id/tab2"
-                    android:orientation="vertical"
+                    <TextView
+                        android:id="@+id/Descripcion_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignStart="@+id/Gasto_nuevo_text"
+                        android:layout_marginTop="153dp"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="Descripcion:" />
+
+                    <TextView
+                        android:id="@+id/Gasto_nuevo_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignStart="@+id/Descripcion"
+                        android:layout_marginTop="53dp"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="Gasto Nuevo:" />
+
+                    <EditText
+                        android:id="@+id/Descripcion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="57dp"
+                        android:layout_below="@+id/Descripcion_text"
+                        android:layout_centerHorizontal="true"
+                        android:ems="10"
+                        android:inputType="textPersonName" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <TextView android:id="@+id/textView2"
-                        android:text="Contenido Tab 2"
+                    <TextView
+                        android:id="@+id/textView2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="Contenido Tab 2" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

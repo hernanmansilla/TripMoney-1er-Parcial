@@ -12,34 +12,34 @@
 
     <EditText
         android:id="@+id/usuario_login"
-        android:layout_width="408dp"
-        android:layout_height="78dp"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="89dp"
         android:layout_marginTop="106dp"
         android:layout_weight="1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="" />
 
     <EditText
         android:id="@+id/password_login"
-        android:layout_width="match_parent"
-        android:layout_height="81dp"
-        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="59dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="227dp"
+        android:layout_alignStart="@+id/usuario_login"
+        android:layout_marginTop="203dp"
         android:ems="10"
-        android:text="Password" />
+        android:text="" />
 
     <Button
         android:id="@+id/aceptar_login"
         android:layout_width="151dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="139dp"
-        android:layout_marginEnd="105dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="228dp"
         android:text="ACEPTAR" />
 
     <Button
@@ -47,8 +47,43 @@
         android:layout_width="151dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/aceptar_login"
-        android:layout_marginBottom="54dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="29dp"
         android:text="REGISTRAR" />
+
+    <TextView
+        android:id="@+id/Usuario_text"
+        android:layout_width="82dp"
+        android:layout_height="29dp"
+        android:layout_above="@+id/usuario_login"
+        android:layout_alignStart="@+id/usuario_login"
+        android:layout_marginBottom="-106dp"
+        android:text="USUARIO:"
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Contraseña_text"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_above="@+id/password_login"
+        android:layout_alignStart="@+id/usuario_login"
+        android:layout_marginBottom="-203dp"
+        android:text="CONTRASEÑA:"
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Registrate_text"
+        android:layout_width="303dp"
+        android:layout_height="41dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="102dp"
+        android:text="Si no posee una cuenta, registrese:"
+        android:textColor="@android:color/background_dark"
+        android:textSize="19sp" />
 
 </RelativeLayout>

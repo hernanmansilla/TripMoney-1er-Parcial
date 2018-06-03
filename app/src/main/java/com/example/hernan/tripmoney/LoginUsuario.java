@@ -26,12 +26,11 @@ public class LoginUsuario extends AppCompatActivity
     public String Usuario_BD;
     public String Password_BD;
     public int Id_BD;
-    public int  indice_buscador=0;
+    private int  indice_buscador=0;
     public boolean Usuario_OK=false;
 
-    public static DataBaseManager manejador_db_usuarios;
+    public static DataBaseManager manejador_db;
     public static Cursor cursor_usuarios;
-    public static DataBaseManager manejador_db_gastos;
     public static Cursor cursor_gastos;
 
 
@@ -60,8 +59,8 @@ public class LoginUsuario extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                manejador_db_usuarios = new DataBaseManager(LoginUsuario.this);
-                cursor_usuarios = manejador_db_usuarios.CargarCursor_Usuarios();
+                manejador_db = new DataBaseManager(LoginUsuario.this);
+                cursor_usuarios = manejador_db.CargarCursor_Usuarios();
 
                 Usuario_ingresado = Usuario_login.getText().toString();
                 Password_ingresado = Password_login.getText().toString();
@@ -88,14 +87,15 @@ public class LoginUsuario extends AppCompatActivity
                         }
                         else
                             {
-                //            indice_buscador++;
-                                cursor_usuarios.moveToNext();
+                            indice_buscador++;
+                            cursor_usuarios.moveToNext();
                         }
 
-                    } while ((Id_BD < cursor_usuarios.getCount()) && (Usuario_OK == false));
+                    } while ((indice_buscador < cursor_usuarios.getCount()) && (Usuario_OK == false));
+            //        while(cursor_usuarios != null);
 
                     cursor_usuarios.close();
-                    manejador_db_usuarios.CerrarBaseDatos();
+                    manejador_db.CerrarBaseDatos();
                     indice_buscador = 0;
 
                     if (Usuario_OK == true) {

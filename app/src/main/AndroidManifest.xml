@@ -20,12 +20,10 @@
         <activity android:name=".LoginUsuario" />
         <activity android:name=".MainActivity" />
         <activity android:name=".Main2Activity" />
-        <activity
-            android:name=".SettingActivity"
-            tools:ignore="DuplicateActivity" />
+        <activity android:name=".SettingActivity" />
         <activity android:name=".MainActivityAdd" />
-
-        <activity android:name=".RegistroUsuarios"></activity>
+        <activity android:name=".RegistroUsuarios" />
+        <activity android:name=".MainActivityModificar" />
     </application>
 
 </manifest>

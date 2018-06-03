@@ -10,8 +10,7 @@ import android.widget.Toast;
 
 import static com.example.hernan.tripmoney.LoginUsuario.cursor_usuarios;
 import static com.example.hernan.tripmoney.LoginUsuario.cursor_gastos;
-import static com.example.hernan.tripmoney.LoginUsuario.manejador_db_gastos;
-import static com.example.hernan.tripmoney.LoginUsuario.manejador_db_usuarios;
+import static com.example.hernan.tripmoney.LoginUsuario.manejador_db;
 
 public class RegistroUsuarios extends AppCompatActivity
 {
@@ -41,12 +40,12 @@ public class RegistroUsuarios extends AppCompatActivity
             public void onClick(View view)
             {
                 // Abro la tabla de usuarios
-                manejador_db_usuarios = new DataBaseManager(RegistroUsuarios.this);
-                cursor_usuarios = manejador_db_usuarios.CargarCursor_Usuarios();
+                manejador_db = new DataBaseManager(RegistroUsuarios.this);
+                cursor_usuarios = manejador_db.CargarCursor_Usuarios();
 
                 // Abro la tabla de gastos
              //   manejador_db_gastos = new DataBaseManager(RegistroUsuarios.this);
-                cursor_gastos = manejador_db_usuarios.CargarCursor_Gastos();
+                cursor_gastos = manejador_db.CargarCursor_Gastos();
 
                 cursor_usuarios.moveToFirst();
                 cursor_gastos.moveToFirst();
@@ -62,12 +61,12 @@ public class RegistroUsuarios extends AppCompatActivity
                     pass = Password_registrar.getText().toString();
 
                     // Inserto los datos en la tabla uruarios
-                    manejador_db_usuarios.insertar_usuarios(user, pass);
+                    manejador_db.insertar_usuarios(user, pass);
                     // Innserto los datos en la tabla gastos
-                    manejador_db_usuarios.insertar_gastos(user,"hola",0,0);
+                    manejador_db.insertar_gastos(user,"hola",0,0);
 
                     // Cierro las bases de datos y los cursores
-                    manejador_db_usuarios.CerrarBaseDatos();
+                    manejador_db.CerrarBaseDatos();
                //     manejador_db_gastos.CerrarBaseDatos();
                     cursor_usuarios.close();
                     cursor_gastos.close();
