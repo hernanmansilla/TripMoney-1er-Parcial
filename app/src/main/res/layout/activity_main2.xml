@@ -38,16 +38,16 @@
 
                     <Button
                         android:id="@+id/Boton_agregar_gasto"
-                        android:layout_width="148dp"
+                        android:layout_width="254dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="150dp"
-                        android:text="AGREGAR" />
+                        android:text="AGREGAR GASTO" />
 
                     <EditText
                         android:id="@+id/Gasto_nuevo"
-                        android:layout_width="wrap_content"
+                        android:layout_width="255dp"
                         android:layout_height="56dp"
                         android:layout_below="@+id/Gasto_nuevo_text"
                         android:layout_centerHorizontal="true"
@@ -80,7 +80,7 @@
 
                     <EditText
                         android:id="@+id/Descripcion"
-                        android:layout_width="wrap_content"
+                        android:layout_width="259dp"
                         android:layout_height="57dp"
                         android:layout_below="@+id/Descripcion_text"
                         android:layout_centerHorizontal="true"
@@ -95,10 +95,13 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/Descripcion_text_tab2"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="Seleccion"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Contenido Tab 2" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

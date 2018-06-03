@@ -5,6 +5,7 @@ package com.example.hernan.tripmoney;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -17,14 +18,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
-import static com.example.hernan.tripmoney.LoginUsuario.manejador_db;
-import static com.example.hernan.tripmoney.LoginUsuario.cursor_gastos;
+
 
 public class MainActivity extends AppCompatActivity
 {
+    private static DataBaseManager manejador_db;
+    private static Cursor cursor_usuarios;
+    private static Cursor cursor_gastos;
 
     public ListView ListaPersonas;
-    private Toolbar toolbar;
+    private Toolbar toolbar_MainActivity;
     private int Id_BD;
     private String Nombre_BD;
     private String Descripcion_BD;
@@ -51,7 +54,8 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.Agregar:
 
-                Intent ActivityAdd = new Intent(MainActivity.this, MainActivityAdd.class);
+                Intent ActivityAdd = new Intent(MainActivity.this, RegistroUsuarios.class);
+                ActivityAdd.putExtra("Registro_interno",1);
                 startActivity(ActivityAdd);
 
                 break;
@@ -94,7 +98,7 @@ public class MainActivity extends AppCompatActivity
                 finish();
                 Intent Activity_Main_Modificar = new Intent(MainActivity.this, MainActivityModificar.class);
                 // Le paso a traves de un intent el id del item que toque para modificarlo
-                Activity_Main_Modificar.putExtra("ID_Press",Lista.get(info.position).getId());
+                Activity_Main_Modificar.putExtra("ID_usuarios",Lista.get(info.position).getId());
                 startActivity(Activity_Main_Modificar);
 
                 return true;
@@ -153,8 +157,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        toolbar_MainActivity = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar_MainActivity);
+
+        getSupportActionBar().setTitle("       T  R  I  P   M  O  N  E  Y");
 
      //   cuentas = new Cuentas();
 
@@ -171,6 +177,7 @@ public class MainActivity extends AppCompatActivity
 
         if(cursor_gastos != null && cursor_gastos.getCount()>0)
         {
+            indice_buscador=0;
             do
                 {
                     // Tomo los datos de la tabla Gastos
@@ -209,9 +216,10 @@ public class MainActivity extends AppCompatActivity
             //    String opcionSeleccionada = ((Titular)a.getItemAtPosition(position)).getTitulo();
                 Datos obj = (Datos) a.getItemAtPosition(position);
 
-                finish();
+             //   finish();
                 Intent Activity2 = new Intent(MainActivity.this, Main2Activity.class);
-                Activity2.putExtra("ID_Press",Lista.get(position).getId());
+                Activity2.putExtra("ID_gastos",Lista.get(position).getId());
+                Activity2.putExtra("Nombre_usu",Lista.get(position).getNombre());
                 startActivity(Activity2);
             }
         });

@@ -6,14 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import static com.example.hernan.tripmoney.DataBaseManager.COLUMNA_NOMBRE;
-import static com.example.hernan.tripmoney.DataBaseManager.COLUMNA_PASSWORD;
 
 public class LoginUsuario extends AppCompatActivity
 {
@@ -28,11 +26,10 @@ public class LoginUsuario extends AppCompatActivity
     public int Id_BD;
     private int  indice_buscador=0;
     public boolean Usuario_OK=false;
+    private Toolbar toolbar_loguin;
 
-    public static DataBaseManager manejador_db;
-    public static Cursor cursor_usuarios;
-    public static Cursor cursor_gastos;
-
+    private static DataBaseManager manejador_db;
+    private static Cursor cursor_usuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,6 +41,11 @@ public class LoginUsuario extends AppCompatActivity
         Password_login = findViewById(R.id.password_login);
         Aceptar_login = findViewById(R.id.aceptar_login);
         Registrar_login = findViewById(R.id.registrar_login);
+        toolbar_loguin = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar_loguin);
+        getSupportActionBar().setTitle("            T  R  I  P   M  O  N  E  Y");
+        toolbar_loguin.setSubtitle("Loguin Usuario");
 
         // Abri la base de datos
     //    manejador_db = new DataBaseManager(this);
@@ -123,6 +125,7 @@ public class LoginUsuario extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent Activity2 = new Intent(LoginUsuario.this, RegistroUsuarios.class);
+                Activity2.putExtra("Registro_interno",0);
                 startActivity(Activity2);
             }
         });

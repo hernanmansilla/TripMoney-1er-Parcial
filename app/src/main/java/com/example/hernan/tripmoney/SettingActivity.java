@@ -3,16 +3,18 @@ package com.example.hernan.tripmoney;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.widget.Toast;
 
-import static com.example.hernan.tripmoney.LoginUsuario.manejador_db;
+//import static com.example.hernan.tripmoney.MainActivity.toolbar;
 
 public class SettingActivity extends PreferenceActivity
 {
-    boolean borrarbd;
+    private static DataBaseManager manejador_db;
+
     static public boolean Check_estado = false;
 
     private static DataBaseManager manejador_db_settings;
@@ -23,6 +25,10 @@ public class SettingActivity extends PreferenceActivity
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.settings);
+
+
+    //    getSupportActionBar().setTitle("    T R I P  M O N E Y");
+      //  toolbar.setSubtitle("Settings");
 
         // Analizo las preferencias del menu Settings
       //  SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);

@@ -1,25 +1,30 @@
 package com.example.hernan.tripmoney;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import static com.example.hernan.tripmoney.LoginUsuario.cursor_gastos;
-import static com.example.hernan.tripmoney.LoginUsuario.manejador_db;
+//import static com.example.hernan.tripmoney.MainActivity.toolbar;
 
-public class MainActivityModificar extends AppCompatActivity {
+public class MainActivityModificar extends AppCompatActivity
+{
+    private static DataBaseManager manejador_db;
+    private static Cursor cursor_usuarios;
+    private static Cursor cursor_gastos;
 
-
-    public EditText Usuario_modificar;
-    public EditText Contraseña_modificar;
-    public Button Boton_Modificar;
+    private EditText Usuario_modificar;
+    private EditText Contraseña_modificar;
+    private Button Boton_Modificar;
     private String Descripcion_BD;
     private float Debe_BD;
     private float Afavor_BD;
+    private Toolbar toolbar_MainActivityModificar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,6 +35,11 @@ public class MainActivityModificar extends AppCompatActivity {
         Usuario_modificar = (EditText) findViewById(R.id.Usuario_modificar);
         Contraseña_modificar = (EditText) findViewById(R.id.Constraseña_modificar);
         Boton_Modificar = (Button) findViewById(R.id.Boton_modificar);
+        toolbar_MainActivityModificar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar_MainActivityModificar);
+        getSupportActionBar().setTitle("      T  R  I  P   M  O  N  E  Y");
+        toolbar_MainActivityModificar.setSubtitle("Loguin Usuario");
 
         Boton_Modificar.setOnClickListener(new View.OnClickListener()
         {
@@ -47,7 +57,7 @@ public class MainActivityModificar extends AppCompatActivity {
                     // Recibo la posicion del Listview que se presiono del MainActivity
                     Bundle extras = getIntent().getExtras();
                     assert extras != null;
-                    int id_press = extras.getInt("ID_Press");
+                    int id_press = extras.getInt("ID_usuarios");
 
                     cursor_gastos = manejador_db.CargarCursor_Gastos();
 
