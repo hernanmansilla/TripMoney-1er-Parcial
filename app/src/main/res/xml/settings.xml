@@ -4,12 +4,6 @@
     android:key="MisPreferencias"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <PreferenceCategory android:title="SETTINGS">
         <Preference
             android:key="Usuarios_BD"

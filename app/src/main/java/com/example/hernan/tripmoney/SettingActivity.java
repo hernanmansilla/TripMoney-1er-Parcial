@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class SettingActivity extends PreferenceActivity
 {
-    private static DataBaseManager manejador_db;
+    private DataBaseManager manejador_db;
 
     static public boolean Check_estado = false;
 
@@ -108,9 +108,9 @@ public class SettingActivity extends PreferenceActivity
                     public void onClick(DialogInterface dialog, int which)
                     {
                         // Aca tengo que borrar la base de datos
-                        manejador_db_settings = new DataBaseManager(SettingActivity.this);
+                        manejador_db = new DataBaseManager(SettingActivity.this);
 
-                        manejador_db_settings.EliminarTablaBaseDatos_Gastos();
+                        manejador_db.EliminarTablaBaseDatos_Gastos();
 
                         Toast.makeText(SettingActivity.this,"Borre la Base de Datos",Toast.LENGTH_SHORT).show();
                         dialog.cancel();
