@@ -29,7 +29,7 @@ public class SplashScreen extends AppCompatActivity
             public void run()
             {
                 // Start the next activity
-                Intent mainIntent = new Intent().setClass(SplashScreen.this, LoginUsuario.class);
+                Intent mainIntent = new Intent().setClass(SplashScreen.this, ActivityLoginUsuario.class);
                 startActivity(mainIntent);
 
                 // Terminamos la activity para que el usuario no pueda volver para atrás con el botón de back

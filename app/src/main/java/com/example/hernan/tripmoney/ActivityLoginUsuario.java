@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LoginUsuario extends AppCompatActivity
+public class ActivityLoginUsuario extends AppCompatActivity
 {
     public EditText Usuario_login;
     public EditText Password_login;
@@ -68,11 +68,11 @@ public class LoginUsuario extends AppCompatActivity
                 // Me fijo si ingreso datos vacios
                 if(Usuario_ingresado.isEmpty() && Password_ingresado.isEmpty())
                 {
-                    Toast.makeText(LoginUsuario.this, "Ingrese datos validos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityLoginUsuario.this, "Ingrese datos validos", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    manejador_db = new DataBaseManager(LoginUsuario.this);
+                    manejador_db = new DataBaseManager(ActivityLoginUsuario.this);
                     cursor_usuarios = manejador_db.CargarCursor_Usuarios();
 
                     cursor_usuarios.moveToFirst();
@@ -105,17 +105,17 @@ public class LoginUsuario extends AppCompatActivity
                         if (Usuario_OK == true) {
                             // Me voy a la actividad principal
                             finish();
-                            Intent Activity_Main = new Intent(LoginUsuario.this, ActivityPrincipal.class);
+                            Intent Activity_Main = new Intent(ActivityLoginUsuario.this, ActivityPrincipal.class);
                             startActivity(Activity_Main);
                         } else
-                            Toast.makeText(LoginUsuario.this, "Usuario o Contraseña incorrectas", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityLoginUsuario.this, "Usuario o Contraseña incorrectas", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
                         // Si entre aca es porque la tabla esta vacia. Le genero un registro por default
                         if(cursor_usuarios.getCount() ==0)
                         {
-                            Toast.makeText(LoginUsuario.this, "Base de datos vacia", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityLoginUsuario.this, "Base de datos vacia", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -130,7 +130,7 @@ public class LoginUsuario extends AppCompatActivity
             public void onClick(View view)
             {
                 finish();
-                Intent Activity2 = new Intent(LoginUsuario.this, RegistroUsuarios.class);
+                Intent Activity2 = new Intent(ActivityLoginUsuario.this, ActivityRegistroUsuarios.class);
                 Activity2.putExtra("Registro_interno",0);
                 startActivity(Activity2);
             }

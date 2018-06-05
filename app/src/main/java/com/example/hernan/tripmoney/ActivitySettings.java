@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 //import static com.example.hernan.tripmoney.MainActivity.toolbar;
 
-public class SettingActivity extends PreferenceActivity
+public class ActivitySettings extends PreferenceActivity
 {
     private DataBaseManager manejador_db;
 
@@ -47,7 +47,7 @@ public class SettingActivity extends PreferenceActivity
         {
             public boolean onPreferenceClick(Preference preference)
             {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivitySettings.this);
                     builder.setMessage("Confirma borrar la base de datos de usuarios?");
                     builder.setTitle("Esto es el titulo");
 
@@ -57,17 +57,17 @@ public class SettingActivity extends PreferenceActivity
                         public void onClick(DialogInterface dialog, int which)
                         {
                             // Aca tengo que borrar la base de datos
-                            manejador_db= new DataBaseManager(SettingActivity.this);
+                            manejador_db= new DataBaseManager(ActivitySettings.this);
 
                             manejador_db.EliminarTablaBaseDatos_Usuarios();
 
                             manejador_db.CerrarBaseDatos();
 
-                            Toast.makeText(SettingActivity.this,"Base de Datos borrada",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivitySettings.this,"Base de Datos borrada",Toast.LENGTH_SHORT).show();
                             dialog.cancel();
 
                             finish();
-                            Intent Activity_Main = new Intent(SettingActivity.this, LoginUsuario.class);
+                            Intent Activity_Main = new Intent(ActivitySettings.this, ActivityLoginUsuario.class);
                             startActivity(Activity_Main);
 
                         }
@@ -81,7 +81,7 @@ public class SettingActivity extends PreferenceActivity
                             dialog.cancel();
 
                             finish();
-                            Intent Activity_Main = new Intent(SettingActivity.this, ActivityPrincipal.class);
+                            Intent Activity_Main = new Intent(ActivitySettings.this, ActivityPrincipal.class);
                             startActivity(Activity_Main);
                         }
                     });
@@ -101,7 +101,7 @@ public class SettingActivity extends PreferenceActivity
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ActivitySettings.this);
                 builder.setMessage("Confirma borrar la base de datos de gastos?");
                 builder.setTitle("Esto es el titulo");
 
@@ -111,15 +111,15 @@ public class SettingActivity extends PreferenceActivity
                     public void onClick(DialogInterface dialog, int which)
                     {
                         // Aca tengo que borrar la base de datos
-                        manejador_db = new DataBaseManager(SettingActivity.this);
+                        manejador_db = new DataBaseManager(ActivitySettings.this);
 
                         manejador_db.EliminarTablaBaseDatos_Gastos();
 
-                        Toast.makeText(SettingActivity.this,"Borre la Base de Datos",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivitySettings.this,"Borre la Base de Datos",Toast.LENGTH_SHORT).show();
                         dialog.cancel();
 
                         finish();
-                        Intent Activity_Main = new Intent(SettingActivity.this, ActivityPrincipal.class);
+                        Intent Activity_Main = new Intent(ActivitySettings.this, ActivityPrincipal.class);
                         startActivity(Activity_Main);
                     }
                 });
@@ -131,7 +131,7 @@ public class SettingActivity extends PreferenceActivity
                         //        prefs.setSelectable(false);
                         dialog.cancel();
                         finish();
-                        Intent Activity_Main = new Intent(SettingActivity.this, ActivityPrincipal.class);
+                        Intent Activity_Main = new Intent(ActivitySettings.this, ActivityPrincipal.class);
                         startActivity(Activity_Main);
                     }
                 });
@@ -149,7 +149,7 @@ public class SettingActivity extends PreferenceActivity
     public void onBackPressed()
     {
         finish();
-        Intent Activity_Main = new Intent(SettingActivity.this, ActivityPrincipal.class);
+        Intent Activity_Main = new Intent(ActivitySettings.this, ActivityPrincipal.class);
         startActivity(Activity_Main);
         super.onBackPressed();
     }

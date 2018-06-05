@@ -57,7 +57,7 @@ public class ActivityPrincipal extends AppCompatActivity
             case R.id.Agregar:
 
                 finish();
-                Intent ActivityAdd = new Intent(ActivityPrincipal.this, RegistroUsuarios.class);
+                Intent ActivityAdd = new Intent(ActivityPrincipal.this, ActivityRegistroUsuarios.class);
                 ActivityAdd.putExtra("Registro_interno",1);
                 startActivity(ActivityAdd);
 
@@ -67,7 +67,7 @@ public class ActivityPrincipal extends AppCompatActivity
             case R.id.Editar:
 
                 finish();
-                Intent Activity2 = new Intent(ActivityPrincipal.this, SettingActivity.class);
+                Intent Activity2 = new Intent(ActivityPrincipal.this, ActivitySettings.class);
                 startActivity(Activity2);
 
                 break;
@@ -130,7 +130,7 @@ public class ActivityPrincipal extends AppCompatActivity
                         dialog.cancel();
 
                         finish();
-                        Intent Activity_Main = new Intent(ActivityPrincipal.this, LoginUsuario.class);
+                        Intent Activity_Main = new Intent(ActivityPrincipal.this, ActivityLoginUsuario.class);
                         startActivity(Activity_Main);
 
                     }

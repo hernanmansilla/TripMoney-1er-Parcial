@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 //import static com.example.hernan.tripmoney.MainActivity.toolbar;
 
-public class RegistroUsuarios extends AppCompatActivity
+public class ActivityRegistroUsuarios extends AppCompatActivity
 {
     private static DataBaseManager manejador_db;
     private static Cursor cursor_usuarios;
@@ -56,12 +56,12 @@ public class RegistroUsuarios extends AppCompatActivity
 
                 if(Usuario_ingresado.isEmpty() && Password_ingresado.isEmpty())
                 {
-                    Toast.makeText(RegistroUsuarios.this, "Ingrese datos validos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityRegistroUsuarios.this, "Ingrese datos validos", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     // Abro la tabla de usuarios
-                    manejador_db = new DataBaseManager(RegistroUsuarios.this);
+                    manejador_db = new DataBaseManager(ActivityRegistroUsuarios.this);
                     cursor_usuarios = manejador_db.CargarCursor_Usuarios();
 
                     // Abro la tabla de gastos
@@ -119,21 +119,21 @@ public class RegistroUsuarios extends AppCompatActivity
                         // Innserto los datos en la tabla gastos
                         manejador_db.insertar_gastos(Usuario_ingresado, "hola", 0, 0);
 
-                        Toast.makeText(RegistroUsuarios.this, "Usuario Añadido", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityRegistroUsuarios.this, "Usuario Añadido", Toast.LENGTH_SHORT).show();
 
                         if (Reg_int == 1) {
                             finish();
-                            Intent ActivityAdd = new Intent(RegistroUsuarios.this, ActivityPrincipal.class);
+                            Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityPrincipal.class);
                             startActivity(ActivityAdd);
                         } else {
                             finish();
-                            Intent ActivityAdd = new Intent(RegistroUsuarios.this, LoginUsuario.class);
+                            Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityLoginUsuario.class);
                             startActivity(ActivityAdd);
                         }
                     }
                     else
                     {
-                        Toast.makeText(RegistroUsuarios.this, "Usuario ya existente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityRegistroUsuarios.this, "Usuario ya existente", Toast.LENGTH_SHORT).show();
                     }
                     // Cierro las bases de datos y los cursores
                     manejador_db.CerrarBaseDatos();
@@ -158,7 +158,7 @@ public class RegistroUsuarios extends AppCompatActivity
 
         if (Reg_int == 1)
         {
-            Intent ActivityAdd = new Intent(RegistroUsuarios.this, ActivityPrincipal.class);
+            Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityPrincipal.class);
             startActivity(ActivityAdd);
         }
         super.onBackPressed();
