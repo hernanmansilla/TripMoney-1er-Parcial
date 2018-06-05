@@ -72,7 +72,8 @@ public class RegistroUsuarios extends AppCompatActivity
 
                     if ((cursor_usuarios != null) && (cursor_usuarios.getCount()>0))
                     {
-                        indice_buscador=0;
+                        indice_buscador = 0;
+                        Usuario_repetido = false;
                         // Chequeo ya si el usuario esta ingresado
                         // Busco la posicion para insertar el nuevo usuario
                         do {
@@ -152,7 +153,6 @@ public class RegistroUsuarios extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         int Reg_int = extras.getInt("Registro_interno");
-
 
         finish();
 

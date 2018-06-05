@@ -115,6 +115,14 @@ public class DataBaseManager
         return db.query(NOMBRE_TABLA_GASTOS,columnas,null,null,null,null,null);
     }
 
+    public Cursor Query_Gastos(String usuario)
+    {
+        String[] campos_a_recuperar = new String[] {COLUMNA_NOMBRE,COLUMNA_DESCRIPCION,COLUMNA_DEBE,COLUMNA_AFAVOR};
+        String[] Where_usuarios = new String[] {usuario};
+
+        return db.query(NOMBRE_TABLA_GASTOS, campos_a_recuperar, "nombre=?",Where_usuarios , null, null, null);
+    }
+
     public void CerrarBaseDatos()
     {
         db.close();

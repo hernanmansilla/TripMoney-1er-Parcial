@@ -80,26 +80,31 @@ public class Main2Activity extends AppCompatActivity
 
                 Descripcion = Descripcion_gasto.getText().toString();
 
-                if((Gasto_nuevo !=0) && (Descripcion != null))
+                if((Gasto_nuevo !=0) && (Descripcion != null) && !Descripcion.isEmpty())
                 {
                     // Recibo los datos del MainActivity
                     Bundle extras1 = getIntent().getExtras();
                     assert extras1 != null;
-                    int id_press = extras1.getInt("ID_gastos");
+                  //  int id_press = extras1.getInt("ID_gastos");
+                    String nombre_usuario = extras1.getString("Nombre_usu");
 
                     manejador_db = new DataBaseManager(Main2Activity.this);
                     cursor_gastos = manejador_db.CargarCursor_Gastos();
 
-                    if (cursor_gastos != null && cursor_gastos.getCount() > 0) {
-                        cursor_gastos.move(id_press);
+                    if (cursor_gastos != null && cursor_gastos.getCount() > 0)
+                    {
+                       // cursor_gastos.move(id_press);
+
+                        // Agrego el nuevo registro al final de la tabla
+                        cursor_gastos.moveToLast();
+
                         // Tomo los datos de la tabla Gastos
+                     //   Nombre_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("nombre"));
+                     //   Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
+                     //   Debe_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("Debe"));
+                     //   Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
 
-                        Nombre_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("nombre"));
-                        Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
-                        Debe_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("Debe"));
-                        Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
-
-                        manejador_db.modificar_gastos(Nombre_BD, Descripcion, Debe_BD, Afavor_BD + Gasto_nuevo, id_press);
+                        manejador_db.insertar_gastos(nombre_usuario, Descripcion, Debe_BD,  Gasto_nuevo);
                     }
                     manejador_db.CerrarBaseDatos();
                     cursor_gastos.close();
@@ -243,6 +248,8 @@ public class Main2Activity extends AppCompatActivity
     public void onBackPressed()
     {
         finish();
+        Intent Activity2 = new Intent(Main2Activity.this, MainActivity.class);
+        startActivity(Activity2);
         super.onBackPressed();
     }
 }

@@ -33,7 +33,9 @@ public class MainActivity extends AppCompatActivity
     private String Descripcion_BD;
     private float Debe_BD;
     private float Afavor_BD;
-    private int  indice_buscador=0;
+    private int  indice_buscador_usuarios=0;
+    private int  indice_buscador_gastos=0;
+    private int  AFavor_Total=0;
 
     public ListView ListaDatos;
     ArrayList<Datos> Lista;
@@ -172,31 +174,51 @@ public class MainActivity extends AppCompatActivity
         // Aca tengo que levantar de la base de datos los usuarios
         // Abro la base de datos y tomo el cursor para ver mis usuarios y cargarlos en el listview
         manejador_db = new DataBaseManager(MainActivity.this);
-        cursor_gastos = manejador_db.CargarCursor_Gastos();
 
-        cursor_gastos.moveToFirst();
+        // Tomo el cursor de los gastos de cada persona
+        cursor_usuarios = manejador_db.CargarCursor_Usuarios();
+     //   cursor_gastos = manejador_db.CargarCursor_Gastos();
 
-        if(cursor_gastos != null && cursor_gastos.getCount()>0)
+        cursor_usuarios.moveToFirst();
+
+        if(cursor_usuarios != null && cursor_usuarios.getCount()>0)
         {
-            indice_buscador=0;
+            indice_buscador_usuarios=0;
             do
                 {
-                    // Tomo los datos de la tabla Gastos
-                    Id_BD = cursor_gastos.getInt(cursor_gastos.getColumnIndex("_id"));
-                    Nombre_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("nombre"));
-                    Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
-                    Debe_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("Debe"));
-                    Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
+                    // Tomo el nombre para direccionarlo a la otra tabla y traerme los gastos
+                    Nombre_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("nombre"));
 
-                    // Inserto en mi objeto para mostrar en el listview
-                    Lista.add(new Datos(Id_BD,Nombre_BD,Debe_BD,Afavor_BD,R.mipmap.ic_launcher));
+                    // Hago una query del usuario para traerme todos los datos y obtener el gasto total
+                    cursor_gastos = manejador_db.Query_Gastos(Nombre_BD);
 
-                    indice_buscador++;
-                    cursor_gastos.moveToNext();
+                    indice_buscador_gastos=0;
 
-                }while (indice_buscador <cursor_gastos.getCount());
+                    AFavor_Total = 0;
+
+                    cursor_gastos.moveToFirst();
+
+                   do
+                   {
+                       // Sumo el gasto total de ese usuario
+                       AFavor_Total += cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
+                       indice_buscador_gastos++;
+                       cursor_gastos.moveToNext();
+
+                   }while (indice_buscador_gastos <cursor_gastos.getCount());
+
+                  // Inserto en mi objeto para mostrar en el listview
+                    Lista.add(new Datos(Id_BD,Nombre_BD,Debe_BD,AFavor_Total,R.mipmap.ic_launcher));
+
+                    AFavor_Total=0;
+
+                    indice_buscador_usuarios++;
+                    cursor_usuarios.moveToNext();
+
+                }while (indice_buscador_usuarios <cursor_usuarios.getCount());
 
             manejador_db.CerrarBaseDatos();
+            cursor_usuarios.close();
             cursor_gastos.close();
         }
 
@@ -217,9 +239,9 @@ public class MainActivity extends AppCompatActivity
             //    String opcionSeleccionada = ((Titular)a.getItemAtPosition(position)).getTitulo();
                 Datos obj = (Datos) a.getItemAtPosition(position);
 
-             //   finish();
+                finish();
                 Intent Activity2 = new Intent(MainActivity.this, Main2Activity.class);
-                Activity2.putExtra("ID_gastos",Lista.get(position).getId());
+           //     Activity2.putExtra("ID_gastos",Lista.get(position).getId());
                 Activity2.putExtra("Nombre_usu",Lista.get(position).getNombre());
                 startActivity(Activity2);
             }
