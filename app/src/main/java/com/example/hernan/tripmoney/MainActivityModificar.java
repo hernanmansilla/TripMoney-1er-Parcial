@@ -97,4 +97,14 @@ public class MainActivityModificar extends AppCompatActivity
             }
         });
     }
+
+    // Si toco el boton atras finalizo esta actividad
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        Intent ActivityAdd = new Intent(MainActivityModificar.this, MainActivity.class);
+        startActivity(ActivityAdd);
+        super.onBackPressed();
+    }
 }

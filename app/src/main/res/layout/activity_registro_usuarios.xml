@@ -12,31 +12,28 @@
 
     <EditText
         android:id="@+id/usuario_registrar"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_alignParentStart="true"
+        android:layout_width="240dp"
+        android:layout_height="59dp"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="89dp"
-        android:layout_marginTop="106dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
         android:layout_weight="1"
         android:ems="10" />
 
     <EditText
         android:id="@+id/password_registrar"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="59dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/usuario_registrar"
-        android:layout_marginTop="203dp"
+        android:layout_centerInParent="true"
         android:ems="10" />
 
     <Button
         android:id="@+id/registrar"
-        android:layout_width="151dp"
+        android:layout_width="239dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="228dp"
+        android:layout_marginBottom="154dp"
         android:text="REGISTRAR" />
 
     <TextView
@@ -45,7 +42,7 @@
         android:layout_height="29dp"
         android:layout_above="@+id/usuario_registrar"
         android:layout_alignStart="@+id/usuario_registrar"
-        android:layout_marginBottom="-106dp"
+        android:layout_marginBottom="-130dp"
         android:text="USUARIO:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"
@@ -57,7 +54,6 @@
         android:layout_height="30dp"
         android:layout_above="@+id/password_registrar"
         android:layout_alignStart="@+id/usuario_registrar"
-        android:layout_marginBottom="-203dp"
         android:text="CONTRASEÑA:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"

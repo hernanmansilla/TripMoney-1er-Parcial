@@ -14,9 +14,9 @@
         android:id="@+id/Usuario_modificar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/Usuario_modificar"
         android:layout_alignStart="@+id/Usuario_modificar"
-        android:layout_marginTop="100dp"
+        android:layout_marginBottom="-134dp"
         android:text="USUARIO:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"
@@ -24,11 +24,11 @@
 
     <EditText
         android:id="@+id/Usuario_modificar"
-        android:layout_width="208dp"
+        android:layout_width="228dp"
         android:layout_height="55dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="121dp"
+        android:layout_marginTop="134dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
@@ -40,31 +40,29 @@
         android:id="@+id/Constraseña_modificar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/Usuario_modificar_text"
-        android:layout_marginTop="194dp"
-        android:text="CONTRASEÑA"
+        android:layout_above="@+id/Constraseña_modificar"
+        android:layout_alignStart="@+id/Constraseña_modificar"
+        android:text="CONTRASEÑA:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/Constraseña_modificar"
-        android:layout_width="wrap_content"
+        android:layout_width="233dp"
         android:layout_height="59dp"
-        android:layout_below="@+id/Constraseña_modificar_text"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="" />
 
     <Button
         android:id="@+id/Boton_modificar"
-        android:layout_width="124dp"
+        android:layout_width="237dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="226dp"
+        android:layout_marginBottom="154dp"
         android:text="MODIFICAR URUSARIO" />
 
 </RelativeLayout>

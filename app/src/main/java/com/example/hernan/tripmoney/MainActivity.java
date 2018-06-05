@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.Agregar:
 
+                finish();
                 Intent ActivityAdd = new Intent(MainActivity.this, RegistroUsuarios.class);
                 ActivityAdd.putExtra("Registro_interno",1);
                 startActivity(ActivityAdd);
@@ -63,11 +64,11 @@ public class MainActivity extends AppCompatActivity
             // Aca va la settings
             case R.id.Editar:
 
+                finish();
                 Intent Activity2 = new Intent(MainActivity.this, SettingActivity.class);
                 startActivity(Activity2);
 
                 break;
-
         }
         return true;
     }

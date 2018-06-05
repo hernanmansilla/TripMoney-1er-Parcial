@@ -79,7 +79,10 @@ public class SettingActivity extends PreferenceActivity
                         {
                     //        prefs.setSelectable(false);
                             dialog.cancel();
-                            //       finish();
+
+                            finish();
+                            Intent Activity_Main = new Intent(SettingActivity.this, MainActivity.class);
+                            startActivity(Activity_Main);
                         }
                     });
 
@@ -114,7 +117,10 @@ public class SettingActivity extends PreferenceActivity
 
                         Toast.makeText(SettingActivity.this,"Borre la Base de Datos",Toast.LENGTH_SHORT).show();
                         dialog.cancel();
-                        //        finish();
+
+                        finish();
+                        Intent Activity_Main = new Intent(SettingActivity.this, MainActivity.class);
+                        startActivity(Activity_Main);
                     }
                 });
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
@@ -124,7 +130,9 @@ public class SettingActivity extends PreferenceActivity
                     {
                         //        prefs.setSelectable(false);
                         dialog.cancel();
-                        //       finish();
+                        finish();
+                        Intent Activity_Main = new Intent(SettingActivity.this, MainActivity.class);
+                        startActivity(Activity_Main);
                     }
                 });
 
@@ -134,5 +142,15 @@ public class SettingActivity extends PreferenceActivity
             }
 
         });
+    }
+
+    // Si toco el boton atras finalizo esta actividad
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        Intent Activity_Main = new Intent(SettingActivity.this, MainActivity.class);
+        startActivity(Activity_Main);
+        super.onBackPressed();
     }
 }

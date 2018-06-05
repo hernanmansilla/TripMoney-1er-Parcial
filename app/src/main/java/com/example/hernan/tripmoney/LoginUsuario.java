@@ -61,58 +61,63 @@ public class LoginUsuario extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                manejador_db = new DataBaseManager(LoginUsuario.this);
-                cursor_usuarios = manejador_db.CargarCursor_Usuarios();
-
+                // Tomo los datos ingresados
                 Usuario_ingresado = Usuario_login.getText().toString();
                 Password_ingresado = Password_login.getText().toString();
 
-                cursor_usuarios.moveToFirst();
-
-                if(cursor_usuarios != null && cursor_usuarios.getCount()>0)
+                // Me fijo si ingreso datos vacios
+                if(Usuario_ingresado.isEmpty() && Password_ingresado.isEmpty())
                 {
-                    // Busco la posicion para insertar el nuevo usuario
-                    do {
-                        // Leo el usuario
-                        Usuario_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("nombre"));
-
-                        // Leo el password
-                        Password_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("password"));
-
-                        // Leo el ID
-                        Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
-
-                        // Comparo si el usuario y contraseña es correcto
-                        if (Usuario_ingresado.equals(Usuario_BD) && Password_ingresado.equals(Password_BD)) {
-                            //       if ((Usuario_ingresado == Usuario_BD) && (Password_ingresado == Password_BD))
-                            Usuario_OK = true;
-                        }
-                        else
-                            {
-                            indice_buscador++;
-                            cursor_usuarios.moveToNext();
-                        }
-
-                    } while ((indice_buscador < cursor_usuarios.getCount()) && (Usuario_OK == false));
-            //        while(cursor_usuarios != null);
-
-                    cursor_usuarios.close();
-                    manejador_db.CerrarBaseDatos();
-                    indice_buscador = 0;
-
-                    if (Usuario_OK == true) {
-                        // Me voy a la actividad principal
-                        finish();
-                        Intent Activity_Main = new Intent(LoginUsuario.this, MainActivity.class);
-                        startActivity(Activity_Main);
-                    } else
-                        Toast.makeText(LoginUsuario.this, "Usuario o Contraseña incorrectas", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginUsuario.this, "Ingrese datos validos", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    // Si entre aca es porque la tabla esta vacia. Le genero un registro por default
-              //      manejador_db_loguin.insertar_usuarios("user","user");
-                    Toast.makeText(LoginUsuario.this, "Base de datos vacia", Toast.LENGTH_SHORT).show();
+                    manejador_db = new DataBaseManager(LoginUsuario.this);
+                    cursor_usuarios = manejador_db.CargarCursor_Usuarios();
+
+                    cursor_usuarios.moveToFirst();
+
+                    if (cursor_usuarios != null && cursor_usuarios.getCount() > 0)
+                    {
+                        indice_buscador=0;
+                        // Busco la posicion para insertar el nuevo usuario
+                        do {
+                            Usuario_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("nombre"));
+                            Password_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("password"));
+                            //    Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
+
+                            // Comparo si el usuario y contraseña es correcto
+                            if (Usuario_ingresado.equals(Usuario_BD) && Password_ingresado.equals(Password_BD)) {
+                                //       if ((Usuario_ingresado == Usuario_BD) && (Password_ingresado == Password_BD))
+                                Usuario_OK = true;
+                            } else {
+                                indice_buscador++;
+                                cursor_usuarios.moveToNext();
+                            }
+
+                        }
+                        while ((indice_buscador < cursor_usuarios.getCount()) && (Usuario_OK == false));
+
+                        cursor_usuarios.close();
+                        manejador_db.CerrarBaseDatos();
+                        indice_buscador = 0;
+
+                        if (Usuario_OK == true) {
+                            // Me voy a la actividad principal
+                            finish();
+                            Intent Activity_Main = new Intent(LoginUsuario.this, MainActivity.class);
+                            startActivity(Activity_Main);
+                        } else
+                            Toast.makeText(LoginUsuario.this, "Usuario o Contraseña incorrectas", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        // Si entre aca es porque la tabla esta vacia. Le genero un registro por default
+                        if(cursor_usuarios.getCount() ==0)
+                        {
+                            Toast.makeText(LoginUsuario.this, "Base de datos vacia", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
         });
@@ -124,6 +129,7 @@ public class LoginUsuario extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                finish();
                 Intent Activity2 = new Intent(LoginUsuario.this, RegistroUsuarios.class);
                 Activity2.putExtra("Registro_interno",0);
                 startActivity(Activity2);
