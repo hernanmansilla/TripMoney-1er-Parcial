@@ -1,6 +1,6 @@
 package com.example.hernan.tripmoney;
 
-public class Datos
+public class DatosListViewPrincipal
 {
     private int Id;
     private String Nombre;
@@ -8,7 +8,7 @@ public class Datos
     private float Afavor;
     private int Imagen_titulo;
 
-    public Datos(int id,String name, float debe, float afavor,int imag)
+    public DatosListViewPrincipal(int id,String name, float debe, float afavor,int imag)
     {
         Id=id;
         Nombre = name;
@@ -25,21 +25,6 @@ public class Datos
     public void setId(int id)
     {
         Id=id;
-    }
-
-    public void setTitulo(String titulo)
-    {
-        titulo = titulo;
-    }
-
-    public void setSubtitulo(String subtitulo)
-    {
-        subtitulo = subtitulo;
-    }
-
-    public void setImagen(int imagen)
-    {
-        Imagen_titulo = imagen;
     }
 
     public String getNombre()
@@ -63,3 +48,4 @@ public class Datos
     }
 
 }
+

@@ -105,7 +105,7 @@ public class LoginUsuario extends AppCompatActivity
                         if (Usuario_OK == true) {
                             // Me voy a la actividad principal
                             finish();
-                            Intent Activity_Main = new Intent(LoginUsuario.this, MainActivity.class);
+                            Intent Activity_Main = new Intent(LoginUsuario.this, ActivityPrincipal.class);
                             startActivity(Activity_Main);
                         } else
                             Toast.makeText(LoginUsuario.this, "Usuario o Contraseña incorrectas", Toast.LENGTH_SHORT).show();

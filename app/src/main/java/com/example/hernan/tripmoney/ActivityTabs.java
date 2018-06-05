@@ -15,7 +15,7 @@ import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 
-public class Main2Activity extends AppCompatActivity
+public class ActivityTabs extends AppCompatActivity
 {
     private static DataBaseManager manejador_db;
     private static Cursor cursor_usuarios;
@@ -88,7 +88,7 @@ public class Main2Activity extends AppCompatActivity
                   //  int id_press = extras1.getInt("ID_gastos");
                     String nombre_usuario = extras1.getString("Nombre_usu");
 
-                    manejador_db = new DataBaseManager(Main2Activity.this);
+                    manejador_db = new DataBaseManager(ActivityTabs.this);
                     cursor_gastos = manejador_db.CargarCursor_Gastos();
 
                     if (cursor_gastos != null && cursor_gastos.getCount() > 0)
@@ -110,10 +110,10 @@ public class Main2Activity extends AppCompatActivity
                     cursor_gastos.close();
 
                     finish();
-                    Intent Activity_Main_Modificar = new Intent(Main2Activity.this, MainActivity.class);
+                    Intent Activity_Main_Modificar = new Intent(ActivityTabs.this, ActivityPrincipal.class);
                     startActivity(Activity_Main_Modificar);
 
-                    Toast.makeText(Main2Activity.this, "Modificacion realizada", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityTabs.this, "Modificacion realizada", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -125,7 +125,7 @@ public class Main2Activity extends AppCompatActivity
             {
                if(tabID == "mitab2")
                {
-                   manejador_db = new DataBaseManager(Main2Activity.this);
+                   manejador_db = new DataBaseManager(ActivityTabs.this);
                    cursor_gastos = manejador_db.CargarCursor_Gastos();
 
                    Bundle extras = getIntent().getExtras();
@@ -248,7 +248,7 @@ public class Main2Activity extends AppCompatActivity
     public void onBackPressed()
     {
         finish();
-        Intent Activity2 = new Intent(Main2Activity.this, MainActivity.class);
+        Intent Activity2 = new Intent(ActivityTabs.this, ActivityPrincipal.class);
         startActivity(Activity2);
         super.onBackPressed();
     }

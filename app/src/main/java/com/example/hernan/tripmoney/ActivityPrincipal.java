@@ -20,7 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity
+public class ActivityPrincipal extends AppCompatActivity
 {
     private static DataBaseManager manejador_db;
     private static Cursor cursor_usuarios;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
     private int  AFavor_Total=0;
 
     public ListView ListaDatos;
-    ArrayList<Datos> Lista;
+    ArrayList<DatosListViewPrincipal> Lista;
 
     // Inflo el toolbar con los botones
     @Override
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.Agregar:
 
                 finish();
-                Intent ActivityAdd = new Intent(MainActivity.this, RegistroUsuarios.class);
+                Intent ActivityAdd = new Intent(ActivityPrincipal.this, RegistroUsuarios.class);
                 ActivityAdd.putExtra("Registro_interno",1);
                 startActivity(ActivityAdd);
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.Editar:
 
                 finish();
-                Intent Activity2 = new Intent(MainActivity.this, SettingActivity.class);
+                Intent Activity2 = new Intent(ActivityPrincipal.this, SettingActivity.class);
                 startActivity(Activity2);
 
                 break;
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.Modificar:
 
                 finish();
-                Intent Activity_Main_Modificar = new Intent(MainActivity.this, MainActivityModificar.class);
+                Intent Activity_Main_Modificar = new Intent(ActivityPrincipal.this, ActivityTabs.class);
                 // Le paso a traves de un intent el id del item que toque para modificarlo
                 Activity_Main_Modificar.putExtra("ID_usuarios",Lista.get(info.position).getId());
                 startActivity(Activity_Main_Modificar);
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.Eliminar:
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityPrincipal.this);
                 builder.setMessage("Confirma borrar la base de datos de usuarios?");
                 builder.setTitle("Esto es el titulo");
 
@@ -117,20 +117,20 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        Toast.makeText(MainActivity.this,"Registro eliminado",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityPrincipal.this,"Registro eliminado",Toast.LENGTH_SHORT).show();
                         // Aca tengo que borrar la base de datos
-                        manejador_db= new DataBaseManager(MainActivity.this);
+                        manejador_db= new DataBaseManager(ActivityPrincipal.this);
 
                         // Elimino el registro de esa tabla
                         manejador_db.eliminar(Lista.get(info.position).getId());
 
                         manejador_db.CerrarBaseDatos();
 
-                        Toast.makeText(MainActivity.this,"Base de Datos borrada",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityPrincipal.this,"Base de Datos borrada",Toast.LENGTH_SHORT).show();
                         dialog.cancel();
 
                         finish();
-                        Intent Activity_Main = new Intent(MainActivity.this, LoginUsuario.class);
+                        Intent Activity_Main = new Intent(ActivityPrincipal.this, LoginUsuario.class);
                         startActivity(Activity_Main);
 
                     }
@@ -169,11 +169,11 @@ public class MainActivity extends AppCompatActivity
 
         ListaDatos = (ListView)findViewById(R.id.ListaPersonas);
 
-        Lista = new ArrayList<Datos>();
+        Lista = new ArrayList<DatosListViewPrincipal>();
 
         // Aca tengo que levantar de la base de datos los usuarios
         // Abro la base de datos y tomo el cursor para ver mis usuarios y cargarlos en el listview
-        manejador_db = new DataBaseManager(MainActivity.this);
+        manejador_db = new DataBaseManager(ActivityPrincipal.this);
 
         // Tomo el cursor de los gastos de cada persona
         cursor_usuarios = manejador_db.CargarCursor_Usuarios();
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity
                    }while (indice_buscador_gastos <cursor_gastos.getCount());
 
                   // Inserto en mi objeto para mostrar en el listview
-                    Lista.add(new Datos(Id_BD,Nombre_BD,Debe_BD,AFavor_Total,R.mipmap.ic_launcher));
+                    Lista.add(new DatosListViewPrincipal(Id_BD,Nombre_BD,Debe_BD,AFavor_Total,R.mipmap.ic_launcher));
 
                     AFavor_Total=0;
 
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity
             cursor_gastos.close();
         }
 
-        Adaptador adaptador = new Adaptador(getApplicationContext(),Lista);
+        AdaptadorListViewPrincipal adaptador = new AdaptadorListViewPrincipal(getApplicationContext(),Lista);
 
         ListaDatos.setAdapter(adaptador);
 
@@ -236,11 +236,9 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> a, View v, int position, long id)
             {
                 //Alternativa 1:
-            //    String opcionSeleccionada = ((Titular)a.getItemAtPosition(position)).getTitulo();
-                Datos obj = (Datos) a.getItemAtPosition(position);
 
                 finish();
-                Intent Activity2 = new Intent(MainActivity.this, Main2Activity.class);
+                Intent Activity2 = new Intent(ActivityPrincipal.this, ActivityTabs.class);
            //     Activity2.putExtra("ID_gastos",Lista.get(position).getId());
                 Activity2.putExtra("Nombre_usu",Lista.get(position).getNombre());
                 startActivity(Activity2);

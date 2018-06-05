@@ -18,11 +18,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginUsuario" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Main2Activity" />
+        <activity android:name=".ActivityPrincipal" />
+        <activity android:name=".ActivityTabs" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".RegistroUsuarios" />
-        <activity android:name=".MainActivityModificar" />
+        <activity android:name=".ActivityModificar" />
     </application>
 
 </manifest>

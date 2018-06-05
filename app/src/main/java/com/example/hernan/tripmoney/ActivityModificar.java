@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 //import static com.example.hernan.tripmoney.MainActivity.toolbar;
 
-public class MainActivityModificar extends AppCompatActivity
+public class ActivityModificar extends AppCompatActivity
 {
     private static DataBaseManager manejador_db;
     private static Cursor cursor_usuarios;
@@ -52,7 +52,7 @@ public class MainActivityModificar extends AppCompatActivity
 
                 if((Usuario_new != null) && (Contraseña_new != null))
                 {
-                    manejador_db= new DataBaseManager(MainActivityModificar.this);
+                    manejador_db= new DataBaseManager(ActivityModificar.this);
 
                     // Recibo la posicion del Listview que se presiono del MainActivity
                     Bundle extras = getIntent().getExtras();
@@ -79,17 +79,17 @@ public class MainActivityModificar extends AppCompatActivity
                         cursor_gastos.close();
 
                         finish();
-                        Intent Activity_Main_Modificar = new Intent(MainActivityModificar.this, MainActivity.class);
+                        Intent Activity_Main_Modificar = new Intent(ActivityModificar.this, ActivityPrincipal.class);
                         startActivity(Activity_Main_Modificar);
                     }
                     else
                     {
-                        Toast.makeText(MainActivityModificar.this,"Error al modificar",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityModificar.this,"Error al modificar",Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(MainActivityModificar.this,"Valores ingresados incorrectos",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityModificar.this,"Valores ingresados incorrectos",Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -103,7 +103,7 @@ public class MainActivityModificar extends AppCompatActivity
     public void onBackPressed()
     {
         finish();
-        Intent ActivityAdd = new Intent(MainActivityModificar.this, MainActivity.class);
+        Intent ActivityAdd = new Intent(ActivityModificar.this, ActivityPrincipal.class);
         startActivity(ActivityAdd);
         super.onBackPressed();
     }

@@ -123,7 +123,7 @@ public class RegistroUsuarios extends AppCompatActivity
 
                         if (Reg_int == 1) {
                             finish();
-                            Intent ActivityAdd = new Intent(RegistroUsuarios.this, MainActivity.class);
+                            Intent ActivityAdd = new Intent(RegistroUsuarios.this, ActivityPrincipal.class);
                             startActivity(ActivityAdd);
                         } else {
                             finish();
@@ -158,7 +158,7 @@ public class RegistroUsuarios extends AppCompatActivity
 
         if (Reg_int == 1)
         {
-            Intent ActivityAdd = new Intent(RegistroUsuarios.this, MainActivity.class);
+            Intent ActivityAdd = new Intent(RegistroUsuarios.this, ActivityPrincipal.class);
             startActivity(ActivityAdd);
         }
         super.onBackPressed();

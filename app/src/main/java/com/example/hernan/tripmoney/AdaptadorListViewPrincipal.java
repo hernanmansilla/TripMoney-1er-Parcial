@@ -9,37 +9,38 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //import static com.example.hernan.tripmoney.MainActivity.Personas;
 
-public class Adaptador extends BaseAdapter
+public class AdaptadorListViewPrincipal extends BaseAdapter
 {
     Context contexto;
-    List<Datos> ListaObjetos;
+    List<DatosListViewPrincipal> ListaObjetosPrincipal;
 
-    public Adaptador(Context contexto, List<Datos> listaObjetos)
+    public AdaptadorListViewPrincipal(Context contexto, ArrayList<DatosListViewPrincipal> listaObjetos)
     {
         this.contexto = contexto;
-        ListaObjetos = listaObjetos;
+        ListaObjetosPrincipal = listaObjetos;
     }
 
     @Override
     public int getCount()
     {
-        return ListaObjetos.size();
+        return ListaObjetosPrincipal.size();
     }
 
     @Override
     public Object getItem(int Position)
     {
-        return ListaObjetos.get(Position);
+        return ListaObjetosPrincipal.get(Position);
     }
 
     @Override
     public long getItemId (int Position)
     {
-        return ListaObjetos.get(Position).getId();
+        return ListaObjetosPrincipal.get(Position).getId();
     }
 
     public View getView(int position, View convertView, ViewGroup parent)
@@ -52,10 +53,10 @@ public class Adaptador extends BaseAdapter
         TextView Lista_Afavor = (TextView)item.findViewById(R.id.ListaAfavor_usuario);
         ImageView Imagen_Titulo = (ImageView)item.findViewById(R.id.imageView);
 
-        Lista_Nombre.setText(ListaObjetos.get(position).getNombre().toString());
-        Lista_Debe.setText(String.valueOf(ListaObjetos.get(position).getDebe()));
-        Lista_Afavor.setText(String.valueOf(ListaObjetos.get(position).getAfavor()));
-        Imagen_Titulo.setImageResource(ListaObjetos.get(position).getImagen());
+        Lista_Nombre.setText(ListaObjetosPrincipal.get(position).getNombre().toString());
+        Lista_Debe.setText(String.valueOf(ListaObjetosPrincipal.get(position).getDebe()));
+        Lista_Afavor.setText(String.valueOf(ListaObjetosPrincipal.get(position).getAfavor()));
+        Imagen_Titulo.setImageResource(ListaObjetosPrincipal.get(position).getImagen());
 
         return(item);
     }

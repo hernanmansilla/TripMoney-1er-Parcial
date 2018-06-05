@@ -81,7 +81,7 @@ public class SettingActivity extends PreferenceActivity
                             dialog.cancel();
 
                             finish();
-                            Intent Activity_Main = new Intent(SettingActivity.this, MainActivity.class);
+                            Intent Activity_Main = new Intent(SettingActivity.this, ActivityPrincipal.class);
                             startActivity(Activity_Main);
                         }
                     });
@@ -119,7 +119,7 @@ public class SettingActivity extends PreferenceActivity
                         dialog.cancel();
 
                         finish();
-                        Intent Activity_Main = new Intent(SettingActivity.this, MainActivity.class);
+                        Intent Activity_Main = new Intent(SettingActivity.this, ActivityPrincipal.class);
                         startActivity(Activity_Main);
                     }
                 });
@@ -131,7 +131,7 @@ public class SettingActivity extends PreferenceActivity
                         //        prefs.setSelectable(false);
                         dialog.cancel();
                         finish();
-                        Intent Activity_Main = new Intent(SettingActivity.this, MainActivity.class);
+                        Intent Activity_Main = new Intent(SettingActivity.this, ActivityPrincipal.class);
                         startActivity(Activity_Main);
                     }
                 });
@@ -149,7 +149,7 @@ public class SettingActivity extends PreferenceActivity
     public void onBackPressed()
     {
         finish();
-        Intent Activity_Main = new Intent(SettingActivity.this, MainActivity.class);
+        Intent Activity_Main = new Intent(SettingActivity.this, ActivityPrincipal.class);
         startActivity(Activity_Main);
         super.onBackPressed();
     }
