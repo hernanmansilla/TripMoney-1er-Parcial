@@ -10,11 +10,6 @@
             android:title="BORRAR BASE DE DATOS USUARIOS"
             android:defaultValue="false"
             android:summary="Descripción de la preferencia 1" />
-        <Preference
-            android:key="Gastos_BD"
-            android:title="BORRAR BASE DE DATOS GASTOS"
-            android:summary="Descripción de la preferencia 2"
-            android:dialogTitle="Introduce valor" />
     </PreferenceCategory>
 
 </PreferenceScreen>

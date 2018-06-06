@@ -192,25 +192,25 @@ public class ActivityPrincipal extends AppCompatActivity
                     // Hago una query del usuario para traerme todos los datos y obtener el gasto total
                     cursor_gastos = manejador_db.Query_Gastos(Nombre_BD);
 
-                    indice_buscador_gastos=0;
-
-                    AFavor_Total = 0;
-
                     cursor_gastos.moveToFirst();
 
-                   do
-                   {
-                       // Sumo el gasto total de ese usuario
-                       AFavor_Total += cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
-                       indice_buscador_gastos++;
-                       cursor_gastos.moveToNext();
+                    if(cursor_gastos != null && cursor_gastos.getCount()>0)
+                    {
+                        indice_buscador_gastos = 0;
 
-                   }while (indice_buscador_gastos <cursor_gastos.getCount());
+                        AFavor_Total = 0;
 
-                  // Inserto en mi objeto para mostrar en el listview
-                    Lista.add(new DatosListViewPrincipal(Id_BD,Nombre_BD,Debe_BD,AFavor_Total,R.mipmap.ic_launcher));
+                        do {
+                            // Sumo el gasto total de ese usuario
+                            AFavor_Total += cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
+                            indice_buscador_gastos++;
+                            cursor_gastos.moveToNext();
 
-                    AFavor_Total=0;
+                        } while (indice_buscador_gastos < cursor_gastos.getCount());
+
+                        // Inserto en mi objeto para mostrar en el listview
+                        Lista.add(new DatosListViewPrincipal(Id_BD, Nombre_BD, Debe_BD, AFavor_Total, R.mipmap.ic_launcher));
+                    }
 
                     indice_buscador_usuarios++;
                     cursor_usuarios.moveToNext();

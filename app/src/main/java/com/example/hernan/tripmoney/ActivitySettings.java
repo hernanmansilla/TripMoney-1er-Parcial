@@ -17,8 +17,6 @@ public class ActivitySettings extends PreferenceActivity
 
     static public boolean Check_estado = false;
 
-    private static DataBaseManager manejador_db_settings;
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -93,7 +91,7 @@ public class ActivitySettings extends PreferenceActivity
             }
 
         });
-
+/*
         final Preference prefs_gastos = (Preference) findPreference("Gastos_BD");
 
         prefs_gastos.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -141,7 +139,7 @@ public class ActivitySettings extends PreferenceActivity
                 return false;
             }
 
-        });
+        });*/
     }
 
     // Si toco el boton atras finalizo esta actividad
