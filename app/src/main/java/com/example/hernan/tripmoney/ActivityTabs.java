@@ -9,10 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
+
+import java.util.ArrayList;
 
 
 public class ActivityTabs extends AppCompatActivity
@@ -31,6 +35,9 @@ public class ActivityTabs extends AppCompatActivity
     private float Debe_BD;
     private float Afavor_BD;
     private Toolbar toolbar_Main2Activity;
+    private ListView ListaDescripciones;
+    ArrayList<DatosListViewDescripcion> ListaDesc;
+    private int indice_buscador_descripciones=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,7 +48,7 @@ public class ActivityTabs extends AppCompatActivity
         Gasto_nuevo_string = (EditText) findViewById(R.id.Gasto_nuevo);
         Descripcion_gasto = (EditText) findViewById(R.id.Descripcion);
         Boton_agregar_gasto = (Button) findViewById(R.id.Boton_agregar_gasto);
-        Descripcion_gasto_text = (TextView) findViewById(R.id.Descripcion_text_tab2);
+      //  Descripcion_gasto_text = (TextView) findViewById(R.id.Descripcion_text_tab2);
         toolbar_Main2Activity = (Toolbar) findViewById(R.id.toolbar);
 
         Bundle extras = getIntent().getExtras();
@@ -119,29 +126,55 @@ public class ActivityTabs extends AppCompatActivity
             }
         });
 
-        tabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+        tabs.setOnTabChangedListener(new TabHost.OnTabChangeListener()
+        {
             @Override
             public void onTabChanged(String tabID)
             {
                if(tabID == "mitab2")
                {
+                   ListaDescripciones = (ListView)findViewById(R.id.ListaDescripciones);
+
+                   ListaDesc = new ArrayList<DatosListViewDescripcion>();
+
                    manejador_db = new DataBaseManager(ActivityTabs.this);
-                   cursor_gastos = manejador_db.CargarCursor_Gastos();
+                //   cursor_gastos = manejador_db.CargarCursor_Gastos();
 
                    Bundle extras = getIntent().getExtras();
                    assert extras != null;
-                   int id_press = extras.getInt("ID_Press");
+                   String Nombre_usu = extras.getString("Nombre_usu");
+
+                   // Hago una query del usuario para traerme la descripcion
+                   cursor_gastos = manejador_db.Query_Gastos(Nombre_usu);
 
                    cursor_gastos.moveToFirst();
 
                    if (cursor_gastos != null && cursor_gastos.getCount() > 0)
                    {
-                       cursor_gastos.move(id_press);
-                       // Tomo los datos de la tabla Gastos
-                       Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
+                    //   cursor_gastos.move(id_press);
+                       indice_buscador_descripciones = 0;
 
-                       Descripcion_gasto_text.setText(Descripcion_BD);
+                       do {
+                           // Tomo los datos de la tabla Gastos
+                           Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
+
+                           // Inserto en mi objeto para mostrar en el listview
+                           ListaDesc.add(new DatosListViewDescripcion(Nombre_usu, Descripcion_BD));
+                           //Descripcion_gasto_text.setText(Descripcion_BD);
+                           indice_buscador_descripciones++;
+
+                           cursor_gastos.moveToNext();
+
+                       }while(indice_buscador_descripciones < cursor_gastos.getCount());
                    }
+
+                   AdaptadorListviewDescripcion adaptador1 = new AdaptadorListviewDescripcion(getApplicationContext(),ListaDesc);
+
+                   ListaDescripciones.setAdapter(adaptador1);
+
+                   // Registro los controles para el menu contextual, detecta la pulsacion prolongada
+                   registerForContextMenu(ListaDescripciones);
+
                    manejador_db.CerrarBaseDatos();
                    cursor_gastos.close();
                }

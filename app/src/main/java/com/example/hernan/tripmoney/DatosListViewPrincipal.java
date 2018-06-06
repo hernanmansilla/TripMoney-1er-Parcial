@@ -8,9 +8,9 @@ public class DatosListViewPrincipal
     private float Afavor;
     private int Imagen_titulo;
 
-    public DatosListViewPrincipal(int id,String name, float debe, float afavor,int imag)
+    public DatosListViewPrincipal(String name, float debe, float afavor,int imag)
     {
-        Id=id;
+      //  Id=id;
         Nombre = name;
         Debe = debe;
         Afavor = afavor;

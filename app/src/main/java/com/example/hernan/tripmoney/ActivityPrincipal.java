@@ -37,7 +37,7 @@ public class ActivityPrincipal extends AppCompatActivity
     private int  indice_buscador_gastos=0;
     private int  AFavor_Total=0;
 
-    public ListView ListaDatos;
+    private ListView ListaDatos;
     ArrayList<DatosListViewPrincipal> Lista;
 
     // Inflo el toolbar con los botones
@@ -209,7 +209,7 @@ public class ActivityPrincipal extends AppCompatActivity
                         } while (indice_buscador_gastos < cursor_gastos.getCount());
 
                         // Inserto en mi objeto para mostrar en el listview
-                        Lista.add(new DatosListViewPrincipal(Id_BD, Nombre_BD, Debe_BD, AFavor_Total, R.mipmap.ic_launcher));
+                        Lista.add(new DatosListViewPrincipal(Nombre_BD, Debe_BD, AFavor_Total, R.mipmap.ic_launcher));
                     }
 
                     indice_buscador_usuarios++;
