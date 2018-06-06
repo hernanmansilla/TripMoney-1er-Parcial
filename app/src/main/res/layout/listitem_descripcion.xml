@@ -11,6 +11,7 @@
         android:layout_height="78dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -33,7 +34,7 @@
         android:layout_height="27dp"
         android:layout_alignBottom="@+id/ListaDescripcion_Descripcion"
         android:layout_toEndOf="@+id/ListaDescripcion_Gastado_text"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:textStyle="normal" />
 
 </RelativeLayout>

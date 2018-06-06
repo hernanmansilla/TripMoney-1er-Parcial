@@ -19,6 +19,7 @@ public class DataBaseManager
     public static final String COLUMNA_DEBE = "Debe";
     public static final String COLUMNA_AFAVOR = "AFavor";
     public static final String COLUMNA_PASSWORD = "password";
+    public static final String COLUMNA_USUARIO_LOGUEADO = "uslogueado";
 
     public static final String TABLA_GASTOS = "create table " +NOMBRE_TABLA_GASTOS+ " ("
             + COLUMNA_ID + " integer primary key autoincrement,"
@@ -30,7 +31,8 @@ public class DataBaseManager
     public static final String TABLA_USUARIOS = "create table " +NOMBRE_TABLA_USUARIOS+ " ("
             + COLUMNA_ID + " integer primary key autoincrement,"
             + COLUMNA_NOMBRE + " text not null,"
-            + COLUMNA_PASSWORD + " text not null);";
+            + COLUMNA_PASSWORD + " text not null,"
+            + COLUMNA_USUARIO_LOGUEADO + " text not null);";
 
     private SQLiteDatabase db;
     private SQLite usuario;
@@ -43,12 +45,13 @@ public class DataBaseManager
     }
 
     // Actualizar datos de la tabla USUARIOS
-    public ContentValues generarContentValues_usuarios(String nombre, String pass)
+    public ContentValues generarContentValues_usuarios(String nombre, String pass, String logueado)
     {
         ContentValues valores = new ContentValues();
 
         valores.put(COLUMNA_NOMBRE,nombre);
         valores.put(COLUMNA_PASSWORD,pass);
+        valores.put(COLUMNA_USUARIO_LOGUEADO,logueado);
 
         return valores;
     }
@@ -67,9 +70,9 @@ public class DataBaseManager
     }
 
     // Inserto un dato en la tabla Usuarios
-    public void insertar_usuarios(String nombre,String pass)
+    public void insertar_usuarios(String nombre,String pass, String logueado)
     {
-        db.insert(NOMBRE_TABLA_USUARIOS,null,generarContentValues_usuarios(nombre,pass));
+        db.insert(NOMBRE_TABLA_USUARIOS,null,generarContentValues_usuarios(nombre,pass,logueado));
     }
 
     // Inserto un dato en la tabla Gastos
@@ -85,12 +88,12 @@ public class DataBaseManager
         db.delete(NOMBRE_TABLA_GASTOS, COLUMNA_ID + "=" + id,null);
     }
 
-    public void modificar_usuarios(String nombre,String contraseña, int id)
+    public void modificar_usuarios(String nombre,String contraseña, String logueado, int id)
     {
         //   float ValorGuardado_Debe = (float) (Math.round (NuevoDebe * 100)/100.0);
         //   float ValorGuardado_AFavor = (float) (Math.round (NuevoAFavor * 100)/100.0);
 
-        db.update(NOMBRE_TABLA_USUARIOS, generarContentValues_usuarios(nombre,contraseña),COLUMNA_ID + "=" + id,null);
+        db.update(NOMBRE_TABLA_USUARIOS, generarContentValues_usuarios(nombre,contraseña,logueado),COLUMNA_ID + "=" + id,null);
     }
 
     public void modificar_gastos(String nombre,String descripcion, float NuevoDebe, float NuevoAFavor, int id)
@@ -103,7 +106,7 @@ public class DataBaseManager
 
     public Cursor CargarCursor_Usuarios()
     {
-        String[] columnas = new String[]{COLUMNA_ID, COLUMNA_NOMBRE, COLUMNA_PASSWORD};
+        String[] columnas = new String[]{COLUMNA_ID, COLUMNA_NOMBRE, COLUMNA_PASSWORD,COLUMNA_USUARIO_LOGUEADO};
 
         return db.query(NOMBRE_TABLA_USUARIOS,columnas,null,null,null,null,null);
     }
@@ -113,6 +116,14 @@ public class DataBaseManager
         String[] columnas = new String[]{COLUMNA_ID, COLUMNA_NOMBRE, COLUMNA_DESCRIPCION, COLUMNA_DEBE, COLUMNA_AFAVOR};
 
         return db.query(NOMBRE_TABLA_GASTOS,columnas,null,null,null,null,null);
+    }
+
+    public Cursor Query_Usuarios(String where, String argumento)
+    {
+        String[] campos_a_recuperar = new String[] {COLUMNA_ID,COLUMNA_NOMBRE,COLUMNA_PASSWORD,COLUMNA_USUARIO_LOGUEADO};
+        String[] Where_argumento = new String[] {argumento};
+
+        return db.query(NOMBRE_TABLA_USUARIOS, campos_a_recuperar, where,Where_argumento , null, null, null);
     }
 
     public Cursor Query_Gastos(String usuario)

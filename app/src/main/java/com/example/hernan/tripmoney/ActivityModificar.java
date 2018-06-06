@@ -72,7 +72,7 @@ public class ActivityModificar extends AppCompatActivity
                         Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
 
                         // Modifico el usuario
-                        manejador_db.modificar_usuarios(Usuario_new,Contraseña_new,id_press);
+                        manejador_db.modificar_usuarios(Usuario_new,Contraseña_new,"NO",id_press);
                         manejador_db.modificar_gastos(Usuario_new,Descripcion_BD,Debe_BD,Afavor_BD,id_press);
 
                         manejador_db.CerrarBaseDatos();

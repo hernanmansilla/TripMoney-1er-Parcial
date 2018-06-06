@@ -77,6 +77,16 @@ public class ActivityTabs extends AppCompatActivity
 
         tabs.setCurrentTab(0);
 
+        Bundle extras1 = getIntent().getExtras();
+        assert extras1 != null;
+        String estado_logueo = extras1.getString("Estado_logueo_usu");
+
+        // Esto quiere decir que el usuario no es el logueado, no le doy permiso de agregar un gasto nuevo
+        if(estado_logueo.equals("NO"))
+            Boton_agregar_gasto.setEnabled(false);
+        else
+            Boton_agregar_gasto.setEnabled(true);
+
         Boton_agregar_gasto.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -92,7 +102,6 @@ public class ActivityTabs extends AppCompatActivity
                     // Recibo los datos del MainActivity
                     Bundle extras1 = getIntent().getExtras();
                     assert extras1 != null;
-                  //  int id_press = extras1.getInt("ID_gastos");
                     String nombre_usuario = extras1.getString("Nombre_usu");
 
                     manejador_db = new DataBaseManager(ActivityTabs.this);
@@ -112,7 +121,7 @@ public class ActivityTabs extends AppCompatActivity
                     Intent Activity_Main_Modificar = new Intent(ActivityTabs.this, ActivityPrincipal.class);
                     startActivity(Activity_Main_Modificar);
 
-                    Toast.makeText(ActivityTabs.this, "Modificacion realizada", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityTabs.this, "Gasto añadido", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -130,7 +139,6 @@ public class ActivityTabs extends AppCompatActivity
                    ListaDesc = new ArrayList<DatosListViewDescripcion>();
 
                    manejador_db = new DataBaseManager(ActivityTabs.this);
-                //   cursor_gastos = manejador_db.CargarCursor_Gastos();
 
                    Bundle extras = getIntent().getExtras();
                    assert extras != null;
@@ -141,10 +149,14 @@ public class ActivityTabs extends AppCompatActivity
 
                    cursor_gastos.moveToFirst();
 
-                   if (cursor_gastos != null && cursor_gastos.getCount() > 0)
+                   // Lo comparo con 1 para saltearme el hola
+                   if (cursor_gastos != null && cursor_gastos.getCount() > 1)
                    {
-                    //   cursor_gastos.move(id_press);
                        indice_buscador_descripciones = 0;
+
+                       // Para saltearme el primer registro que es el "hola"
+                       cursor_gastos.moveToNext();
+                       indice_buscador_descripciones++;
 
                        do {
                            // Tomo los datos de la tabla Gastos
@@ -154,7 +166,7 @@ public class ActivityTabs extends AppCompatActivity
 
                            // Inserto en mi objeto para mostrar en el listview
                            ListaDesc.add(new DatosListViewDescripcion(Nombre_usu, Descripcion_BD, Afavor_BD));
-                           //Descripcion_gasto_text.setText(Descripcion_BD);
+
                            indice_buscador_descripciones++;
 
                            cursor_gastos.moveToNext();

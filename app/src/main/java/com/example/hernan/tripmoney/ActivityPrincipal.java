@@ -177,7 +177,6 @@ public class ActivityPrincipal extends AppCompatActivity
 
         // Tomo el cursor de los gastos de cada persona
         cursor_usuarios = manejador_db.CargarCursor_Usuarios();
-     //   cursor_gastos = manejador_db.CargarCursor_Gastos();
 
         cursor_usuarios.moveToFirst();
 
@@ -235,13 +234,29 @@ public class ActivityPrincipal extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id)
             {
-                //Alternativa 1:
+                // Le paso el estado de este usuario si es que esta logueado para habilitarle el boton de agregar un gasto nuevo
+                manejador_db = new DataBaseManager(ActivityPrincipal.this);
 
-                finish();
-                Intent Activity2 = new Intent(ActivityPrincipal.this, ActivityTabs.class);
-           //     Activity2.putExtra("ID_gastos",Lista.get(position).getId());
-                Activity2.putExtra("Nombre_usu",Lista.get(position).getNombre());
-                startActivity(Activity2);
+                // Hago una query con este usuario para saber si esta logueado
+                cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",Lista.get(position).getNombre());
+
+                cursor_usuarios.moveToFirst();
+
+                if(cursor_usuarios != null && cursor_usuarios.getCount()>0)
+                {
+                    String estado_logueado = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("uslogueado"));
+
+                    finish();
+                    Intent Activity2 = new Intent(ActivityPrincipal.this, ActivityTabs.class);
+                    //     Activity2.putExtra("ID_gastos",Lista.get(position).getId());
+                    Activity2.putExtra("Nombre_usu", Lista.get(position).getNombre());
+                    Activity2.putExtra("Estado_logueo_usu", estado_logueado);
+                    startActivity(Activity2);
+                }
+                else
+                {
+                    Toast.makeText(ActivityPrincipal.this,"Error",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -297,4 +312,72 @@ public class ActivityPrincipal extends AppCompatActivity
             return(item);
         }
     }*/
+
+    // Si toco el boton atras finalizo esta actividad
+    @Override
+    public void onBackPressed()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityPrincipal.this);
+    //    builder.setMessage("Salir de la aplicacion?");
+        builder.setTitle("Salir de la aplicacion?");
+
+        builder.setPositiveButton("SI", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                // Aca tengo que borrar la base de datos
+                // Le paso el estado de este usuario si es que esta logueado para habilitarle el boton de agregar un gasto nuevo
+                manejador_db = new DataBaseManager(ActivityPrincipal.this);
+
+                // Hago una query con este usuario para saber que usuario esta loqueado
+                cursor_usuarios = manejador_db.Query_Usuarios("uslogueado=?","SI");
+
+                cursor_usuarios.moveToFirst();
+
+                if(cursor_usuarios != null && cursor_usuarios.getCount()>0)
+                {
+                    int Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
+
+                    String Usuario_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("nombre"));
+
+                    String Password_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("password"));
+
+                    // Lo dejo como deslogueado al usuario
+                    manejador_db.modificar_usuarios(Usuario_BD,Password_BD,"NO",Id_BD);
+
+                    manejador_db.CerrarBaseDatos();
+                    cursor_usuarios.close();
+                }
+                else
+                {
+                    Toast.makeText(ActivityPrincipal.this,"Error",Toast.LENGTH_SHORT).show();
+                }
+
+                dialog.cancel();
+
+                finish();
+             //   Intent Activity_Main = new Intent(ActivityPrincipal.this, ActivityPrincipal.class);
+             //   startActivity(Activity_Main);
+                onBackPressed();
+
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                //        prefs.setSelectable(false);
+                dialog.cancel();
+
+        /*        finish();
+                Intent Activity_Main = new Intent(ActivityPrincipal.this, ActivityPrincipal.class);
+                startActivity(Activity_Main);*/
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

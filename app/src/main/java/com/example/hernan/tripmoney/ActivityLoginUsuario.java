@@ -84,17 +84,19 @@ public class ActivityLoginUsuario extends AppCompatActivity
                         do {
                             Usuario_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("nombre"));
                             Password_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("password"));
-                            //    Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
+                            Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
 
                             // Comparo si el usuario y contraseña es correcto
-                            if (Usuario_ingresado.equals(Usuario_BD) && Password_ingresado.equals(Password_BD)) {
-                                //       if ((Usuario_ingresado == Usuario_BD) && (Password_ingresado == Password_BD))
+                            if (Usuario_ingresado.equals(Usuario_BD) && Password_ingresado.equals(Password_BD))
+                            {
+                                // Seteo como logueado a este usuario
+                                manejador_db.modificar_usuarios(Usuario_BD,Password_BD,"SI",Id_BD);
                                 Usuario_OK = true;
-                            } else {
+                            } else
+                                {
                                 indice_buscador++;
                                 cursor_usuarios.moveToNext();
                             }
-
                         }
                         while ((indice_buscador < cursor_usuarios.getCount()) && (Usuario_OK == false));
 
@@ -102,7 +104,8 @@ public class ActivityLoginUsuario extends AppCompatActivity
                         manejador_db.CerrarBaseDatos();
                         indice_buscador = 0;
 
-                        if (Usuario_OK == true) {
+                        if (Usuario_OK == true)
+                        {
                             // Me voy a la actividad principal
                             finish();
                             Intent Activity_Main = new Intent(ActivityLoginUsuario.this, ActivityPrincipal.class);

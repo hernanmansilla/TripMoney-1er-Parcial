@@ -115,7 +115,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
                         cursor_gastos.moveToLast();
 
                         // Inserto los datos en la tabla uruarios
-                        manejador_db.insertar_usuarios(Usuario_ingresado, Password_ingresado);
+                        manejador_db.insertar_usuarios(Usuario_ingresado, Password_ingresado,"NO");
                         // Innserto los datos en la tabla gastos
                         manejador_db.insertar_gastos(Usuario_ingresado, "hola", 0, 0);
 
