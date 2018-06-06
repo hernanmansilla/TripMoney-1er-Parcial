@@ -100,16 +100,8 @@ public class ActivityTabs extends AppCompatActivity
 
                     if (cursor_gastos != null && cursor_gastos.getCount() > 0)
                     {
-                       // cursor_gastos.move(id_press);
-
                         // Agrego el nuevo registro al final de la tabla
                         cursor_gastos.moveToLast();
-
-                        // Tomo los datos de la tabla Gastos
-                     //   Nombre_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("nombre"));
-                     //   Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
-                     //   Debe_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("Debe"));
-                     //   Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
 
                         manejador_db.insertar_gastos(nombre_usuario, Descripcion, Debe_BD,  Gasto_nuevo);
                     }
@@ -158,8 +150,10 @@ public class ActivityTabs extends AppCompatActivity
                            // Tomo los datos de la tabla Gastos
                            Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
 
+                           Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
+
                            // Inserto en mi objeto para mostrar en el listview
-                           ListaDesc.add(new DatosListViewDescripcion(Nombre_usu, Descripcion_BD));
+                           ListaDesc.add(new DatosListViewDescripcion(Nombre_usu, Descripcion_BD, Afavor_BD));
                            //Descripcion_gasto_text.setText(Descripcion_BD);
                            indice_buscador_descripciones++;
 

@@ -45,11 +45,11 @@ public class AdaptadorListviewDescripcion extends BaseAdapter
         LayoutInflater inflater = LayoutInflater.from(contexto);
         View item = inflater.inflate(R.layout.listitem_descripcion, null);
 
-      //  TextView Lista_Nombre = (TextView)item.findViewById(R.id.ListaDescripcion_Gastos);
-        TextView Descripcion_gasto = (TextView)item.findViewById(R.id.ListaDescripcion_Gastos);
+        TextView Descripcion_Desc = (TextView)item.findViewById(R.id.ListaDescripcion_Descripcion);
+        TextView Descripcion_Gastado = (TextView)item.findViewById(R.id.ListaDescripcion_Gastado);
 
-        Descripcion_gasto.setText(ListaObjetosDescripcion.get(position).getDescripcion().toString());
-    //    Descripcion_gasto.setText(String.valueOf(ListaObjetosDescripcion.get(position).getDescripcion()));
+        Descripcion_Desc.setText(ListaObjetosDescripcion.get(position).getDescripcion().toString());
+        Descripcion_Gastado.setText(String.valueOf(ListaObjetosDescripcion.get(position).getAFavor()));
 
         return(item);
     }
