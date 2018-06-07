@@ -14,12 +14,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/Afavor_text"
+        android:id="@+id/AFavor_text"
         android:layout_width="72dp"
         android:layout_height="27dp"
         android:layout_below="@+id/ListaNombre_usuario"
         android:layout_toStartOf="@+id/ListaAfavor_usuario"
-        android:text="A FAVOR:"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#309d41"

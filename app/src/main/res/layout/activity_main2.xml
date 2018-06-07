@@ -57,27 +57,25 @@
 
                     <TextView
                         android:id="@+id/Descripcion_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="127dp"
+                        android:layout_height="32dp"
                         android:layout_alignParentTop="true"
                         android:layout_alignStart="@+id/Gasto_nuevo_text"
-                        android:layout_marginTop="153dp"
+                        android:layout_marginTop="143dp"
                         android:textColor="@android:color/background_dark"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="Descripcion:" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/Gasto_nuevo_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="129dp"
+                        android:layout_height="33dp"
                         android:layout_alignParentTop="true"
                         android:layout_alignStart="@+id/Descripcion"
-                        android:layout_marginTop="53dp"
+                        android:layout_marginTop="42dp"
                         android:textColor="@android:color/background_dark"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="Gasto Nuevo:" />
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/Descripcion"

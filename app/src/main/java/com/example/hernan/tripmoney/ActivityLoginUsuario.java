@@ -2,19 +2,27 @@ package com.example.hernan.tripmoney;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import static com.example.hernan.tripmoney.SplashScreen.Decalled;
+import static com.example.hernan.tripmoney.SplashScreen.Delicious;
+import static com.example.hernan.tripmoney.SplashScreen.The27Club;
 
 public class ActivityLoginUsuario extends AppCompatActivity
 {
+    public TextView Usuario_text;
+    public TextView Contraseña_text;
     public EditText Usuario_login;
     public EditText Password_login;
     public Button Aceptar_login;
@@ -27,7 +35,8 @@ public class ActivityLoginUsuario extends AppCompatActivity
     private int  indice_buscador=0;
     public boolean Usuario_OK=false;
     private Toolbar toolbar_loguin;
-
+    public static String Tipo_Fuente;
+    public static SharedPreferences pref;
     private static DataBaseManager manejador_db;
     private static Cursor cursor_usuarios;
 
@@ -37,24 +46,54 @@ public class ActivityLoginUsuario extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_usuario);
 
+        Usuario_text = findViewById(R.id.Usuario_text);
+        Contraseña_text = findViewById(R.id.Contraseña_text);
         Usuario_login = findViewById(R.id.usuario_login);
         Password_login = findViewById(R.id.password_login);
         Aceptar_login = findViewById(R.id.aceptar_login);
         Registrar_login = findViewById(R.id.registrar_login);
         toolbar_loguin = (Toolbar) findViewById(R.id.toolbar);
 
+        // Tomo la moneda con la que voy a mostrar los gastos
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias_Moneda", Context.MODE_PRIVATE);
+        String moneda = prefs.getString("email", "PESOS");
+
         setSupportActionBar(toolbar_loguin);
         getSupportActionBar().setTitle("            T  R  I  P   M  O  N  E  Y");
         toolbar_loguin.setSubtitle("Loguin Usuario");
 
-        // Abri la base de datos
-    //    manejador_db = new DataBaseManager(this);
+        // Selecciono el tipo de fuente
+        pref = PreferenceManager.getDefaultSharedPreferences(ActivityLoginUsuario.this);
 
-    //    manejador_db.insertar_usuarios("hernan","messi10");
-    //    manejador_db.insertar_usuarios("german","messi11");
+        // Obtengo el tipo de moneda
+        Tipo_Fuente = pref.getString("Tipo_Fuente","FUENTE1");
 
-        // Instanciamos la clase de la base de datos y automaticamente esta crea la tabla
-    //    cursor = manejador_db.CargarCursor_Usuarios();
+        if (Tipo_Fuente.equals("FUENTE1"))
+        {
+            Usuario_text.setTypeface(Decalled);
+            Contraseña_text.setTypeface(Decalled);
+            Aceptar_login.setTypeface(Decalled);
+            Registrar_login.setTypeface(Decalled);
+        }
+
+        if (Tipo_Fuente.equals("FUENTE2")) {
+            Usuario_text.setTypeface(Delicious);
+            Contraseña_text.setTypeface(Delicious);
+            Aceptar_login.setTypeface(Delicious);
+            Registrar_login.setTypeface(Delicious);
+        }
+
+        if (Tipo_Fuente.equals("FUENTE3")) {
+            Usuario_text.setTypeface(The27Club);
+            Contraseña_text.setTypeface(The27Club);
+            Aceptar_login.setTypeface(The27Club);
+            Registrar_login.setTypeface(The27Club);
+        }
+
+        Usuario_text.setText("USUARIO:");
+        Contraseña_text.setText("CONTRASEÑA:");
+        Aceptar_login.setText("LOGIN");
+        Registrar_login.setText("REGISTRAR");
 
         Aceptar_login.setOnClickListener(new View.OnClickListener()
         {
@@ -80,6 +119,7 @@ public class ActivityLoginUsuario extends AppCompatActivity
                     if (cursor_usuarios != null && cursor_usuarios.getCount() > 0)
                     {
                         indice_buscador=0;
+
                         // Busco la posicion para insertar el nuevo usuario
                         do {
                             Usuario_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("nombre"));
@@ -138,9 +178,5 @@ public class ActivityLoginUsuario extends AppCompatActivity
                 startActivity(Activity2);
             }
         });
-
-
-
-
     }
 }

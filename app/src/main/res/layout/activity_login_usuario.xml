@@ -36,8 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="161dp"
-        android:text="LOGIN" />
+        android:layout_marginBottom="161dp" />
 
     <Button
         android:id="@+id/registrar_login"
@@ -45,28 +44,25 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/Registrate_text"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp"
-        android:text="REGISTRAR" />
+        android:layout_marginEnd="18dp" />
 
     <TextView
         android:id="@+id/Usuario_text"
-        android:layout_width="82dp"
+        android:layout_width="113dp"
         android:layout_height="29dp"
         android:layout_above="@+id/usuario_login"
         android:layout_alignStart="@+id/usuario_login"
         android:layout_marginBottom="-141dp"
-        android:text="USUARIO:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/Contraseña_text"
-        android:layout_width="wrap_content"
+        android:layout_width="114dp"
         android:layout_height="30dp"
         android:layout_above="@+id/password_login"
         android:layout_alignStart="@+id/usuario_login"
-        android:text="CONTRASEÑA:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"
         android:textStyle="bold" />

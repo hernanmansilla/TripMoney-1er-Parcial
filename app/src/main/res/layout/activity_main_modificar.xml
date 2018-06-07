@@ -12,12 +12,11 @@
 
     <TextView
         android:id="@+id/Usuario_modificar_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="116dp"
+        android:layout_height="33dp"
         android:layout_above="@+id/Usuario_modificar"
         android:layout_alignStart="@+id/Usuario_modificar"
         android:layout_marginBottom="-134dp"
-        android:text="USUARIO:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -38,11 +37,10 @@
 
     <TextView
         android:id="@+id/Constraseña_modificar_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="116dp"
+        android:layout_height="29dp"
         android:layout_above="@+id/Constraseña_modificar"
         android:layout_alignStart="@+id/Constraseña_modificar"
-        android:text="CONTRASEÑA:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"
         android:textStyle="bold" />

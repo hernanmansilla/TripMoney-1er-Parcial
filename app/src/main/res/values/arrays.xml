@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="fuente">
+        <item>Decalled</item>
+        <item>Delicious</item>
+        <item>The27Club</item>
+    </string-array>
+    <string-array name="codigofuente">
+        <item>FUENTE1</item>
+        <item>FUENTE2</item>
+        <item>FUENTE3</item>
+    </string-array>
+</resources>

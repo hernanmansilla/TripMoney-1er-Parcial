@@ -5,7 +5,10 @@ package com.example.hernan.tripmoney;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -39,6 +42,8 @@ public class ActivityPrincipal extends AppCompatActivity
 
     private ListView ListaDatos;
     ArrayList<DatosListViewPrincipal> Lista;
+    public static String Tipo_Fuente;
+    public static SharedPreferences pref;
 
     // Inflo el toolbar con los botones
     @Override
@@ -99,7 +104,7 @@ public class ActivityPrincipal extends AppCompatActivity
             case R.id.Modificar:
 
                 finish();
-                Intent Activity_Main_Modificar = new Intent(ActivityPrincipal.this, ActivityTabs.class);
+                Intent Activity_Main_Modificar = new Intent(ActivityPrincipal.this, ActivityModificar.class);
                 // Le paso a traves de un intent el id del item que toque para modificarlo
                 Activity_Main_Modificar.putExtra("ID_usuarios",Lista.get(info.position).getId());
                 startActivity(Activity_Main_Modificar);
@@ -165,7 +170,7 @@ public class ActivityPrincipal extends AppCompatActivity
 
         getSupportActionBar().setTitle("       T  R  I  P   M  O  N  E  Y");
 
-     //   cuentas = new Cuentas();
+     //  cuentas = new Cuentas();
 
         ListaDatos = (ListView)findViewById(R.id.ListaPersonas);
 
@@ -259,59 +264,7 @@ public class ActivityPrincipal extends AppCompatActivity
                 }
             }
         });
-
-
-/*
-        // Boton que agrega valores a la tabla de Gaby
-        BotonAgregar_Gabriel.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                // Transformo el texto editable en float
-                String number = TextoEditable_Gabriel.getText().toString();
-
-                if (number.length() > 0)
-                {
-                    float ValorAinsertar = Float.parseFloat(number);
-
-                    // Si es un valor positivo lo inserto en el registro de gaby
-                    if (ValorAinsertar > 0)
-                    {
-                        TextoEditable_Gabriel.setText("");
-
-                        cuentas.Calculo_Cuentas("gaby",ValorAinsertar);
-                    }
-                }
-            }
-        });
-*/
     }
-/*
-    public class AdaptadorTitulares extends ArrayAdapter<Titular>
-    {
-        public AdaptadorTitulares(Context context, Titular[] datos)
-        {
-            super(context, R.layout.listitem_titular, datos);
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            View item = inflater.inflate(listitem_titular, null);
-
-            TextView Lista_Titulo = (TextView)item.findViewById(R.id.ListaTitulo);
-            Lista_Titulo.setText(Personas[position].getTitulo());
-
-            TextView Lista_Subtitulo = (TextView)item.findViewById(R.id.ListaSubTitulo);
-            Lista_Subtitulo.setText(Personas[position].getSubtitulo());
-
-            ImageView Imagen_Titulo = (ImageView)item.findViewById(R.id.imageView);
-            Imagen_Titulo.setImageResource(Personas[position].getImagen());
-
-            return(item);
-        }
-    }*/
 
     // Si toco el boton atras finalizo esta actividad
     @Override
@@ -357,8 +310,6 @@ public class ActivityPrincipal extends AppCompatActivity
                 dialog.cancel();
 
                 finish();
-             //   Intent Activity_Main = new Intent(ActivityPrincipal.this, ActivityPrincipal.class);
-             //   startActivity(Activity_Main);
                 onBackPressed();
 
             }
@@ -370,10 +321,6 @@ public class ActivityPrincipal extends AppCompatActivity
             {
                 //        prefs.setSelectable(false);
                 dialog.cancel();
-
-        /*        finish();
-                Intent Activity_Main = new Intent(ActivityPrincipal.this, ActivityPrincipal.class);
-                startActivity(Activity_Main);*/
             }
         });
 

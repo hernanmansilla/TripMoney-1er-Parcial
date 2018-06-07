@@ -37,24 +37,22 @@
         android:text="REGISTRAR" />
 
     <TextView
-        android:id="@+id/Usuario_text_registrar"
-        android:layout_width="82dp"
+        android:id="@+id/Usuario_registrar_text"
+        android:layout_width="119dp"
         android:layout_height="29dp"
         android:layout_above="@+id/usuario_registrar"
         android:layout_alignStart="@+id/usuario_registrar"
         android:layout_marginBottom="-130dp"
-        android:text="USUARIO:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/Contraseña_text_registrar"
-        android:layout_width="wrap_content"
+        android:id="@+id/Contraseña_registrar_text"
+        android:layout_width="119dp"
         android:layout_height="30dp"
         android:layout_above="@+id/password_registrar"
         android:layout_alignStart="@+id/usuario_registrar"
-        android:text="CONTRASEÑA:"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp"
         android:textStyle="bold" />

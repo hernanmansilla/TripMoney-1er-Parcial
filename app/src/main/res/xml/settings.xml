@@ -10,6 +10,14 @@
             android:title="BORRAR BASE DE DATOS USUARIOS"
             android:defaultValue="false"
             android:summary="Descripción de la preferencia 1" />
+
+        <ListPreference
+            android:key="Tipo_Fuente"
+            android:title="TIPO DE FUENTE"
+            android:summary="Descripción de la preferencia 3"
+            android:dialogTitle="Indicar Fuente"
+            android:entries="@array/fuente"
+            android:entryValues="@array/codigofuente" />
     </PreferenceCategory>
 
 </PreferenceScreen>
