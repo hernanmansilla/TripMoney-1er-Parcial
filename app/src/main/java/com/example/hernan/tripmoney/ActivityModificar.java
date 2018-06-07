@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import static com.example.hernan.tripmoney.SplashScreen.Decalled;
-import static com.example.hernan.tripmoney.SplashScreen.Delicious;
-import static com.example.hernan.tripmoney.SplashScreen.The27Club;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.Decalled;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.Delicious;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
 public class ActivityModificar extends AppCompatActivity
 {
@@ -37,7 +37,7 @@ public class ActivityModificar extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_modificar);
+        setContentView(R.layout.activity_modificar);
 
         Usuario_modificar_text = (TextView) findViewById(R.id.Usuario_modificar_text);
         Contraseña_modificar_text = (TextView) findViewById(R.id.Constraseña_modificar_text);

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,9 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.example.hernan.tripmoney.SplashScreen.Decalled;
-import static com.example.hernan.tripmoney.SplashScreen.Delicious;
-import static com.example.hernan.tripmoney.SplashScreen.The27Club;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.Decalled;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.Delicious;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
 public class ActivityLoginUsuario extends AppCompatActivity
 {

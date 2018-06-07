@@ -13,7 +13,7 @@ import android.view.Window;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SplashScreen extends AppCompatActivity
+public class ActivitySplashScreen extends AppCompatActivity
 {
     private static final long SPLASH_SCREEN_DELAY = 3000;
     private static SharedPreferences pref;
@@ -43,7 +43,7 @@ public class SplashScreen extends AppCompatActivity
             public void run()
             {
                 // Start the next activity
-                Intent mainIntent = new Intent().setClass(SplashScreen.this, ActivityLoginUsuario.class);
+                Intent mainIntent = new Intent().setClass(ActivitySplashScreen.this, ActivityLoginUsuario.class);
                 startActivity(mainIntent);
 
                 // Terminamos la activity para que el usuario no pueda volver para atrás con el botón de back

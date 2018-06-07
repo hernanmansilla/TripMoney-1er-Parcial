@@ -13,14 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import static com.example.hernan.tripmoney.ActivityPrincipal.Decalled;
-//import static com.example.hernan.tripmoney.ActivityPrincipal.Delicious;
-//import static com.example.hernan.tripmoney.ActivityPrincipal.The27Club;
-import static com.example.hernan.tripmoney.SplashScreen.Decalled;
-import static com.example.hernan.tripmoney.SplashScreen.Delicious;
-import static com.example.hernan.tripmoney.SplashScreen.The27Club;
-
-//import static com.example.hernan.tripmoney.MainActivity.toolbar;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.Decalled;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.Delicious;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
 public class ActivityRegistroUsuarios extends AppCompatActivity
 {

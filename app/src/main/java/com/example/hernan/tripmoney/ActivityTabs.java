@@ -16,10 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
-import static com.example.hernan.tripmoney.SplashScreen.Decalled;
-import static com.example.hernan.tripmoney.SplashScreen.Delicious;
-import static com.example.hernan.tripmoney.SplashScreen.The27Club;
-
+import static com.example.hernan.tripmoney.ActivitySplashScreen.Decalled;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.Delicious;
+import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
 public class ActivityTabs extends AppCompatActivity
 {
@@ -45,7 +44,7 @@ public class ActivityTabs extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_tabs);
 
         Descripcion_text = (TextView) findViewById(R.id.Descripcion_text);
         Gasto_nuevo_text = (TextView) findViewById(R.id.Gasto_nuevo_text);
