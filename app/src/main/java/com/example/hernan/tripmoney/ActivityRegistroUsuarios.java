@@ -55,7 +55,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
 
         setSupportActionBar(toolbar_RegistroUsuarios);
         getSupportActionBar().setTitle("            T  R  I  P   M  O  N  E  Y");
-        toolbar_RegistroUsuarios.setSubtitle("Modificar Usuario");
+        toolbar_RegistroUsuarios.setSubtitle("Registrar Usuario");
 
         pref = PreferenceManager.getDefaultSharedPreferences(ActivityRegistroUsuarios.this);
 

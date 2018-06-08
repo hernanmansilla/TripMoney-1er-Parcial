@@ -22,7 +22,7 @@
         <activity android:name=".ActivityTabs" />
         <activity android:name=".ActivitySettings" />
         <activity android:name=".ActivityRegistroUsuarios" />
-        <activity android:name=".ActivityModificar" />
+        <activity android:name=".ActivityModificarUsuario" />
     </application>
 
 </manifest>

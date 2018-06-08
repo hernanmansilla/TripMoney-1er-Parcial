@@ -38,6 +38,7 @@ public class ActivityLoginUsuario extends AppCompatActivity
     public static SharedPreferences pref;
     private static DataBaseManager manejador_db;
     private static Cursor cursor_usuarios;
+    private TextView Registrate_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,6 +46,7 @@ public class ActivityLoginUsuario extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_usuario);
 
+        Registrate_text = findViewById(R.id.Registrate_text);
         Usuario_text = findViewById(R.id.Usuario_text);
         Contraseña_text = findViewById(R.id.Contraseña_text);
         Usuario_login = findViewById(R.id.usuario_login);
@@ -73,6 +75,7 @@ public class ActivityLoginUsuario extends AppCompatActivity
             Contraseña_text.setTypeface(Decalled);
             Aceptar_login.setTypeface(Decalled);
             Registrar_login.setTypeface(Decalled);
+            Registrate_text.setTypeface(Decalled);
         }
 
         if (Tipo_Fuente.equals("FUENTE2")) {
@@ -80,6 +83,7 @@ public class ActivityLoginUsuario extends AppCompatActivity
             Contraseña_text.setTypeface(Delicious);
             Aceptar_login.setTypeface(Delicious);
             Registrar_login.setTypeface(Delicious);
+            Registrate_text.setTypeface(Delicious);
         }
 
         if (Tipo_Fuente.equals("FUENTE3")) {
@@ -87,12 +91,14 @@ public class ActivityLoginUsuario extends AppCompatActivity
             Contraseña_text.setTypeface(The27Club);
             Aceptar_login.setTypeface(The27Club);
             Registrar_login.setTypeface(The27Club);
+            Registrate_text.setTypeface(The27Club);
         }
 
         Usuario_text.setText("USUARIO:");
         Contraseña_text.setText("CONTRASEÑA:");
         Aceptar_login.setText("LOGIN");
         Registrar_login.setText("REGISTRAR");
+        Registrate_text.setText("Si no posee usuario, registrese");
 
         Aceptar_login.setOnClickListener(new View.OnClickListener()
         {

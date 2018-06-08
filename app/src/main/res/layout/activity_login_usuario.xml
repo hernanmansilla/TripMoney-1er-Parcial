@@ -69,14 +69,13 @@
 
     <TextView
         android:id="@+id/Registrate_text"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="41dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="44dp"
         android:layout_marginStart="22dp"
-        android:text="Si no posee una cuenta, registrese:"
         android:textColor="@android:color/background_dark"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
 
 </RelativeLayout>

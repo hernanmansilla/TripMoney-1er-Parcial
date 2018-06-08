@@ -82,9 +82,13 @@ public class DataBaseManager
     }
 
 
-    public void eliminar(int id)
+    public void eliminar_Usuarios(int id)
     {
         db.delete(NOMBRE_TABLA_USUARIOS, COLUMNA_ID + "=" + id,null);
+    }
+
+    public void eliminar_Gastos(int id)
+    {
         db.delete(NOMBRE_TABLA_GASTOS, COLUMNA_ID + "=" + id,null);
     }
 
@@ -128,7 +132,7 @@ public class DataBaseManager
 
     public Cursor Query_Gastos(String usuario)
     {
-        String[] campos_a_recuperar = new String[] {COLUMNA_NOMBRE,COLUMNA_DESCRIPCION,COLUMNA_DEBE,COLUMNA_AFAVOR};
+        String[] campos_a_recuperar = new String[] {COLUMNA_ID,COLUMNA_NOMBRE,COLUMNA_DESCRIPCION,COLUMNA_DEBE,COLUMNA_AFAVOR};
         String[] Where_usuarios = new String[] {usuario};
 
         return db.query(NOMBRE_TABLA_GASTOS, campos_a_recuperar, "nombre=?",Where_usuarios , null, null, null);

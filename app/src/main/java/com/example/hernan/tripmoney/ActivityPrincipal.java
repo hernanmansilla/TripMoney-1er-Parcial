@@ -42,6 +42,8 @@ public class ActivityPrincipal extends AppCompatActivity
     ArrayList<DatosListViewPrincipal> Lista;
     public static String Tipo_Fuente;
     public static SharedPreferences pref;
+    private int indice_eliminar_gastos;
+    private String Usuario_Logueado_BD;
 
     // Inflo el toolbar con los botones
     @Override
@@ -97,64 +99,117 @@ public class ActivityPrincipal extends AppCompatActivity
      {
          final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
-         switch (item.getItemId())
+         manejador_db = new DataBaseManager(ActivityPrincipal.this);
+
+         cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",Lista.get(info.position).getNombre());
+
+         cursor_usuarios.moveToFirst();
+
+         if((cursor_usuarios != null && cursor_usuarios.getCount()>0))
          {
-            case R.id.Modificar:
+             // Me posiciono en el ID que corresponde al item que quiero modificar
+            // cursor_usuarios.move(Lista.get(info.position).getId());
 
-                finish();
-                Intent Activity_Main_Modificar = new Intent(ActivityPrincipal.this, ActivityModificar.class);
-                // Le paso a traves de un intent el id del item que toque para modificarlo
-                Activity_Main_Modificar.putExtra("ID_usuarios",Lista.get(info.position).getId());
-                startActivity(Activity_Main_Modificar);
+             Usuario_Logueado_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("uslogueado"));
 
-                return true;
+             if(Usuario_Logueado_BD.equals("SI"))
+             {
+                 switch (item.getItemId())
+                 {
+                     case R.id.Modificar:
 
-            case R.id.Eliminar:
+                         finish();
+                         Intent Activity_Main_Modificar = new Intent(ActivityPrincipal.this, ActivityModificarUsuario.class);
+                         // Le paso a traves de un intent el id del item que toque para modificarlo
+                         Activity_Main_Modificar.putExtra("ID_usuarios",Lista.get(info.position).getId());
+                         startActivity(Activity_Main_Modificar);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityPrincipal.this);
-                builder.setMessage("Confirma borrar la base de datos de usuarios?");
-                builder.setTitle("Esto es el titulo");
+                         return true;
 
-                builder.setPositiveButton("SI", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        Toast.makeText(ActivityPrincipal.this,"Registro eliminado",Toast.LENGTH_SHORT).show();
-                        // Aca tengo que borrar la base de datos
-                        manejador_db= new DataBaseManager(ActivityPrincipal.this);
+                     case R.id.Eliminar:
 
-                        // Elimino el registro de esa tabla
-                        manejador_db.eliminar(Lista.get(info.position).getId());
+                         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityPrincipal.this);
+                         builder.setMessage("Confirma borrar este usuario?");
+                         builder.setTitle("Esto es el titulo");
 
-                        manejador_db.CerrarBaseDatos();
+                         builder.setPositiveButton("SI", new DialogInterface.OnClickListener()
+                         {
+                             @Override
+                             public void onClick(DialogInterface dialog, int which)
+                             {
+                                 // Aca tengo que borrar la base de datos
+                            //     manejador_db = new DataBaseManager(ActivityPrincipal.this);
 
-                        Toast.makeText(ActivityPrincipal.this,"Base de Datos borrada",Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
+                                 // HAGO ESTO PORQUE NO SE PORQUE NO ME DEJA BORRAR DIRECTAMENTE ELIMINAR POR NOMBRE
 
-                        finish();
-                        Intent Activity_Main = new Intent(ActivityPrincipal.this, ActivityLoginUsuario.class);
-                        startActivity(Activity_Main);
+                            //     cursor_gastos = manejador_db.Query_Gastos(Lista.get(info.position).getNombre());
+                                 Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
 
-                    }
-                });
+                                 // Elimino el registro de la tabla de usuarios
+                                 manejador_db.eliminar_Usuarios(Id_BD);
 
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        dialog.cancel();
-                    }
-                });
+                                 // Hago una query para traerme todos los id que corresponden al usuario
+                                 cursor_gastos = manejador_db.Query_Gastos(Lista.get(info.position).getNombre());
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                return true;
+                                 if((cursor_gastos != null && cursor_gastos.getCount()>0))
+                                 {
+                                     indice_eliminar_gastos=0;
 
-            default:
-                return super.onContextItemSelected(item);
-        }
+                                     cursor_gastos.moveToFirst();
+                                     // Para saltearme el hola
+                                     //    cursor_gastos.moveToNext();
+                                     //    indice_eliminar_gastos++;
+
+                                     do {
+                                         // Consulto todos los id del nombre
+                                         Id_BD = cursor_gastos.getInt(cursor_gastos.getColumnIndex("_id"));
+                                         Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
+
+                                         // Elimino de la tabla el registro del gasto
+                                         manejador_db.eliminar_Gastos(Id_BD);
+
+                                         cursor_gastos.moveToNext();
+                                         indice_eliminar_gastos++;
+
+                                     }while(indice_eliminar_gastos < cursor_gastos.getCount());
+                                 }
+
+                                 manejador_db.CerrarBaseDatos();
+                                 cursor_gastos.close();
+
+                                 Toast.makeText(ActivityPrincipal.this, "Registro eliminado", Toast.LENGTH_SHORT).show();
+
+                                 dialog.cancel();
+
+                                 finish();
+                                 Intent Activity_Main = new Intent(ActivityPrincipal.this, ActivityLoginUsuario.class);
+                                 startActivity(Activity_Main);
+
+                             }
+                         });
+
+                         builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
+                         {
+                             @Override
+                             public void onClick(DialogInterface dialog, int which)
+                             {
+                                 dialog.cancel();
+                             }
+                         });
+
+                         AlertDialog dialog = builder.create();
+                         dialog.show();
+                         return true;
+
+                     default:
+                         return super.onContextItemSelected(item);
+                 }
+
+             }
+         }
+         manejador_db.CerrarBaseDatos();
+         cursor_usuarios.close();
+         return super.onContextItemSelected(item);
     }
 
     @Override

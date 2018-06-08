@@ -16,7 +16,7 @@ import static com.example.hernan.tripmoney.ActivitySplashScreen.Decalled;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.Delicious;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
-public class ActivityModificar extends AppCompatActivity
+public class ActivityModificarUsuario extends AppCompatActivity
 {
     private static DataBaseManager manejador_db;
     private static Cursor cursor_gastos;
@@ -37,7 +37,7 @@ public class ActivityModificar extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modificar);
+        setContentView(R.layout.activity_modificar_usuario);
 
         Usuario_modificar_text = (TextView) findViewById(R.id.Usuario_modificar_text);
         Contraseña_modificar_text = (TextView) findViewById(R.id.Constraseña_modificar_text);
@@ -51,7 +51,7 @@ public class ActivityModificar extends AppCompatActivity
         toolbar_MainActivityModificar.setSubtitle("Modificar Usuario");
 
         // Selecciono el tipo de fuente
-        pref = PreferenceManager.getDefaultSharedPreferences(ActivityModificar.this);
+        pref = PreferenceManager.getDefaultSharedPreferences(ActivityModificarUsuario.this);
 
         // Obtengo el tipo de moneda
         Tipo_Fuente = pref.getString("Tipo_Fuente","FUENTE1");
@@ -89,7 +89,7 @@ public class ActivityModificar extends AppCompatActivity
 
                 if((Usuario_new != null) && (Contraseña_new != null))
                 {
-                    manejador_db= new DataBaseManager(ActivityModificar.this);
+                    manejador_db= new DataBaseManager(ActivityModificarUsuario.this);
 
                     // Recibo la posicion del Listview que se presiono del MainActivity
                     Bundle extras = getIntent().getExtras();
@@ -116,17 +116,17 @@ public class ActivityModificar extends AppCompatActivity
                         cursor_gastos.close();
 
                         finish();
-                        Intent Activity_Main_Modificar = new Intent(ActivityModificar.this, ActivityPrincipal.class);
+                        Intent Activity_Main_Modificar = new Intent(ActivityModificarUsuario.this, ActivityPrincipal.class);
                         startActivity(Activity_Main_Modificar);
                     }
                     else
                     {
-                        Toast.makeText(ActivityModificar.this,"Error al modificar",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityModificarUsuario.this,"Error al modificar",Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(ActivityModificar.this,"Valores ingresados incorrectos",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityModificarUsuario.this,"Valores ingresados incorrectos",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -137,7 +137,7 @@ public class ActivityModificar extends AppCompatActivity
     public void onBackPressed()
     {
         finish();
-        Intent ActivityAdd = new Intent(ActivityModificar.this, ActivityPrincipal.class);
+        Intent ActivityAdd = new Intent(ActivityModificarUsuario.this, ActivityPrincipal.class);
         startActivity(ActivityAdd);
         super.onBackPressed();
     }

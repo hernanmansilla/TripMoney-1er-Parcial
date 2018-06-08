@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
 public class SQLite extends SQLiteOpenHelper
 {
-    public static final String NOMBRE_DB = "TripMoney5.basedatos";
+    public static final String NOMBRE_DB = "TripMoney8.basedatos";
     public static final int VERSION_DB=2;
 
    // String Tabla_Usuarios = "CREATE TABLE Usuarios ()"
