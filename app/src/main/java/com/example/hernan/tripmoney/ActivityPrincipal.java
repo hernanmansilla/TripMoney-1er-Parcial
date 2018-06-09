@@ -121,7 +121,7 @@ public class ActivityPrincipal extends AppCompatActivity
                          finish();
                          Intent Activity_Main_Modificar = new Intent(ActivityPrincipal.this, ActivityModificarUsuario.class);
                          // Le paso a traves de un intent el id del item que toque para modificarlo
-                         Activity_Main_Modificar.putExtra("ID_usuarios",Lista.get(info.position).getId());
+                         Activity_Main_Modificar.putExtra("Usuario_press",Lista.get(info.position).getNombre());
                          startActivity(Activity_Main_Modificar);
 
                          return true;

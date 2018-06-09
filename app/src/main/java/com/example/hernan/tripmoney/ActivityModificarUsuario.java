@@ -20,10 +20,13 @@ public class ActivityModificarUsuario extends AppCompatActivity
 {
     private static DataBaseManager manejador_db;
     private static Cursor cursor_gastos;
+    private Cursor cursor_usuarios;
 
     private EditText Usuario_modificar;
     private EditText Contraseña_modificar;
     private Button Boton_Modificar;
+    private int Id_BD;
+    private String Contraseña_BD;
     private String Descripcion_BD;
     private float Debe_BD;
     private float Afavor_BD;
@@ -32,6 +35,7 @@ public class ActivityModificarUsuario extends AppCompatActivity
     public static SharedPreferences pref;
     private TextView Usuario_modificar_text;
     private TextView Contraseña_modificar_text;
+    private int indice_modificacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -89,31 +93,49 @@ public class ActivityModificarUsuario extends AppCompatActivity
 
                 if((Usuario_new != null) && (Contraseña_new != null))
                 {
-                    manejador_db= new DataBaseManager(ActivityModificarUsuario.this);
-
-                    // Recibo la posicion del Listview que se presiono del MainActivity
+                    // Recibo el nombre del Listview que se presiono del MainActivity
                     Bundle extras = getIntent().getExtras();
                     assert extras != null;
-                    int id_press = extras.getInt("ID_usuarios");
+                    String Usuario_press = extras.getString("Usuario_press");
 
-                    cursor_gastos = manejador_db.CargarCursor_Gastos();
+                    manejador_db= new DataBaseManager(ActivityModificarUsuario.this);
 
-                    if(cursor_gastos != null && cursor_gastos.getCount()>0)
+                    cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",Usuario_press);
+
+                    cursor_gastos = manejador_db.Query_Gastos(Usuario_press);
+
+                    if(cursor_usuarios != null && cursor_usuarios.getCount()>0 && cursor_gastos != null && cursor_gastos.getCount()>0)
                     {
-                        cursor_gastos.move(id_press);
+                        cursor_usuarios.moveToFirst();
 
-                        // Tomo los datos de la tabla de gastos para actualizar el Usuario. Debo mejorar esto
-                    //    Id_BD = cursor_gastos.getInt(cursor_gastos.getColumnIndex("_id"));
-                        Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
-                        Debe_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("Debe"));
-                        Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
+                        // Tomo los datos de la tabla de usuarios para actualizar el Usuario. Debo mejorar esto
+                        Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
 
                         // Modifico el usuario
-                        manejador_db.modificar_usuarios(Usuario_new,Contraseña_new,"NO",id_press);
-                        manejador_db.modificar_gastos(Usuario_new,Descripcion_BD,Debe_BD,Afavor_BD,id_press);
+                        manejador_db.modificar_usuarios(Usuario_new,Contraseña_new,"SI",Id_BD);
+
+                        cursor_gastos.moveToFirst();
+
+                        do {
+
+                            // Tomo los datos de la tabla de usuarios para actualizar el Usuario. Debo mejorar esto
+                            Id_BD = cursor_gastos.getInt(cursor_gastos.getColumnIndex("_id"));
+                            Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
+                            Debe_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("Debe"));
+                            Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
+
+                            // Modifico la tabla de gastos
+                            manejador_db.modificar_gastos(Usuario_new, Descripcion_BD, Debe_BD, Afavor_BD, Id_BD);
+                            indice_modificacion++;
+                            cursor_gastos.moveToNext();
+
+                        }while(indice_modificacion < cursor_gastos.getCount());
 
                         manejador_db.CerrarBaseDatos();
+                        cursor_usuarios.close();
                         cursor_gastos.close();
+
+                        Toast.makeText(ActivityModificarUsuario.this,"Usuario modificado",Toast.LENGTH_SHORT).show();
 
                         finish();
                         Intent Activity_Main_Modificar = new Intent(ActivityModificarUsuario.this, ActivityPrincipal.class);
