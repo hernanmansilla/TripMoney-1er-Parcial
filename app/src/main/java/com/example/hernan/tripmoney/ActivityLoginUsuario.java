@@ -46,6 +46,7 @@ public class ActivityLoginUsuario extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_usuario);
 
+        // Referencio los recursos del XML
         Registrate_text = findViewById(R.id.Registrate_text);
         Usuario_text = findViewById(R.id.Usuario_text);
         Contraseña_text = findViewById(R.id.Contraseña_text);
@@ -53,12 +54,9 @@ public class ActivityLoginUsuario extends AppCompatActivity
         Password_login = findViewById(R.id.password_login);
         Aceptar_login = findViewById(R.id.aceptar_login);
         Registrar_login = findViewById(R.id.registrar_login);
-        toolbar_loguin = (Toolbar) findViewById(R.id.toolbar);
+        toolbar_loguin =  findViewById(R.id.toolbar);
 
-        // Tomo la moneda con la que voy a mostrar los gastos
-        SharedPreferences prefs = getSharedPreferences("MisPreferencias_Moneda", Context.MODE_PRIVATE);
-        String moneda = prefs.getString("email", "PESOS");
-
+         // Seteo el Toolbar
         setSupportActionBar(toolbar_loguin);
         getSupportActionBar().setTitle("            T  R  I  P   M  O  N  E  Y");
         toolbar_loguin.setSubtitle("Loguin Usuario");
@@ -66,9 +64,10 @@ public class ActivityLoginUsuario extends AppCompatActivity
         // Selecciono el tipo de fuente
         pref = PreferenceManager.getDefaultSharedPreferences(ActivityLoginUsuario.this);
 
-        // Obtengo el tipo de moneda
+        // Obtengo el tipo de fuente
         Tipo_Fuente = pref.getString("Tipo_Fuente","FUENTE1");
 
+        // De acuerdo al tipo de fuente guardada, selecciono la fuente para las letras
         if (Tipo_Fuente.equals("FUENTE1"))
         {
             Usuario_text.setTypeface(Decalled);
@@ -94,12 +93,16 @@ public class ActivityLoginUsuario extends AppCompatActivity
             Registrate_text.setTypeface(The27Club);
         }
 
+        // Seteo los textos con la fuente precargada
         Usuario_text.setText("USUARIO:");
         Contraseña_text.setText("CONTRASEÑA:");
         Aceptar_login.setText("LOGIN");
         Registrar_login.setText("REGISTRAR");
         Registrate_text.setText("Si no posee usuario, registrese");
 
+        //**********************************************************************************************
+        // Boton LOGIN - Compara el usuario ingresado con los usuarios almacenados en la base de datos
+        //**********************************************************************************************
         Aceptar_login.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -109,14 +112,16 @@ public class ActivityLoginUsuario extends AppCompatActivity
                 Usuario_ingresado = Usuario_login.getText().toString();
                 Password_ingresado = Password_login.getText().toString();
 
-                // Me fijo si ingreso datos vacios
+                // Me fijo si ingreso datos invalidos
                 if(Usuario_ingresado.isEmpty() && Password_ingresado.isEmpty())
                 {
                     Toast.makeText(ActivityLoginUsuario.this, "Ingrese datos validos", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
+                    // Instancio un objeto para manejar la base de datos
                     manejador_db = new DataBaseManager(ActivityLoginUsuario.this);
+                    // Cargo el cursor de la base para obtener los registrosde Usuario
                     cursor_usuarios = manejador_db.CargarCursor_Usuarios();
 
                     cursor_usuarios.moveToFirst();
@@ -127,6 +132,7 @@ public class ActivityLoginUsuario extends AppCompatActivity
 
                         // Busco la posicion para insertar el nuevo usuario
                         do {
+                            // De acuerdo a la posicion del cursor tomo los registros de esa fila
                             Usuario_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("nombre"));
                             Password_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("password"));
                             Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
@@ -137,18 +143,22 @@ public class ActivityLoginUsuario extends AppCompatActivity
                                 // Seteo como logueado a este usuario
                                 manejador_db.modificar_usuarios(Usuario_BD,Password_BD,"SI",Id_BD);
                                 Usuario_OK = true;
-                            } else
+                            }
+                            else
                                 {
+                                // Si no es igual aumento el cursor para saltar a la proxima fila
                                 indice_buscador++;
                                 cursor_usuarios.moveToNext();
                             }
                         }
                         while ((indice_buscador < cursor_usuarios.getCount()) && (Usuario_OK == false));
 
+                        // Cierro la base de datos y el cursor
                         cursor_usuarios.close();
                         manejador_db.CerrarBaseDatos();
                         indice_buscador = 0;
 
+                        // Compruebo si existe el usuario y la contraseña es correcta
                         if (Usuario_OK == true)
                         {
                             // Me voy a la actividad principal
@@ -170,8 +180,9 @@ public class ActivityLoginUsuario extends AppCompatActivity
             }
         });
 
-
-        // Voy a registrar un usuario nuevo
+        //**************************************************************************
+        // BOTON REGISTRAR - Voy a la activity para registrar un usuario nuevo
+        //**************************************************************************
         Registrar_login.setOnClickListener(new View.OnClickListener()
         {
             @Override

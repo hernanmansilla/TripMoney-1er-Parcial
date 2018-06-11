@@ -26,24 +26,18 @@ public class ActivityPrincipal extends AppCompatActivity
     private static DataBaseManager manejador_db;
     private static Cursor cursor_usuarios;
     private static Cursor cursor_gastos;
-
     public ListView ListaPersonas;
     private Toolbar toolbar_MainActivity;
     private int Id_BD;
     private String Nombre_BD;
-    private String Descripcion_BD;
-    private float Debe_BD;
-    private float Afavor_BD;
     private int  indice_buscador_usuarios=0;
     private int  indice_buscador_gastos=0;
     private int  AFavor_Total=0;
-
     private ListView ListaDatos;
-    ArrayList<DatosListViewPrincipal> Lista;
-    public static String Tipo_Fuente;
-    public static SharedPreferences pref;
     private int indice_eliminar_gastos;
     private String Usuario_Logueado_BD;
+
+    ArrayList<DatosListViewPrincipal> Lista;
 
     // Inflo el toolbar con los botones
     @Override
@@ -163,7 +157,6 @@ public class ActivityPrincipal extends AppCompatActivity
                                      do {
                                          // Consulto todos los id del nombre
                                          Id_BD = cursor_gastos.getInt(cursor_gastos.getColumnIndex("_id"));
-                                         Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
 
                                          // Elimino de la tabla el registro del gasto
                                          manejador_db.eliminar_Gastos(Id_BD);
@@ -266,7 +259,7 @@ public class ActivityPrincipal extends AppCompatActivity
                         } while (indice_buscador_gastos < cursor_gastos.getCount());
 
                         // Inserto en mi objeto para mostrar en el listview
-                        Lista.add(new DatosListViewPrincipal(Nombre_BD, Debe_BD, AFavor_Total, R.mipmap.ic_launcher));
+                        Lista.add(new DatosListViewPrincipal(Nombre_BD, 0, AFavor_Total, R.mipmap.ic_launcher));
                     }
 
                     indice_buscador_usuarios++;

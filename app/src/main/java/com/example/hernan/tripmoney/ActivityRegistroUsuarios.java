@@ -25,12 +25,8 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
     private EditText Usuario_registrar;
     private EditText Password_registrar;
     private Button Boton_registrar;
-    private String user;
-    private String pass;
     private Toolbar toolbar_RegistroUsuarios;
     private String Usuario_BD;
-    private String Password_BD;
-    private int Id_BD;
     private String Usuario_ingresado;
     private String Password_ingresado;
     private boolean Usuario_repetido;
@@ -41,11 +37,12 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
     private TextView Contraseña_registrar_text;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_usuarios);
 
-
+        // Referencio los recursos del XML
         Usuario_registrar_text = findViewById(R.id.Usuario_registrar_text);
         Contraseña_registrar_text = findViewById(R.id.Contraseña_registrar_text);
         Usuario_registrar = findViewById(R.id.usuario_registrar);
@@ -53,15 +50,18 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
         Boton_registrar = findViewById(R.id.registrar);
         toolbar_RegistroUsuarios = (Toolbar) findViewById(R.id.toolbar);
 
+        // Seteo el Toolbar
         setSupportActionBar(toolbar_RegistroUsuarios);
         getSupportActionBar().setTitle("            T  R  I  P   M  O  N  E  Y");
         toolbar_RegistroUsuarios.setSubtitle("Registrar Usuario");
 
+        // Instancio una clase de las Shared Preferences
         pref = PreferenceManager.getDefaultSharedPreferences(ActivityRegistroUsuarios.this);
 
-        // Obtengo el tipo de moneda
+        // Obtengo el tipo de fuente
         Tipo_Fuente = pref.getString("Tipo_Fuente", "FUENTE1");
 
+        // De acuerdo al tipo de fuente guardada, selecciono la fuente para las letras
         if (Tipo_Fuente.equals("FUENTE1")) {
             Usuario_registrar_text.setTypeface(Decalled);
             Contraseña_registrar_text.setTypeface(Decalled);
@@ -80,29 +80,43 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
             Boton_registrar.setTypeface(The27Club);
         }
 
+        // Seteo los textos con la fuente precargada
         Usuario_registrar_text.setText("USUARIO:");
         Contraseña_registrar_text.setText("CONTRASEÑA:");
         Boton_registrar.setText("REGISTRAR");
 
+         //**********************************************************************************************
+        // Boton REGISTRAR - Registra un nuevo usuario en la base de datos
+        //**********************************************************************************************
         Boton_registrar.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view) {
-                // Tomo los datos
+            public void onClick(View view)
+            {
+                // Tomo los datos ingresados
                 Usuario_ingresado = Usuario_registrar.getText().toString();
                 Password_ingresado = Password_registrar.getText().toString();
 
+                // Me fijo que haya ingresado algo
                 if(Usuario_ingresado.isEmpty() && Password_ingresado.isEmpty())
                 {
                     Toast.makeText(ActivityRegistroUsuarios.this, "Ingrese datos validos", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    // Abro la tabla de usuarios
+                    // Instancio un objeto para manejar la base de datos
                     manejador_db = new DataBaseManager(ActivityRegistroUsuarios.this);
+
+                    cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",Usuario_ingresado);
+
+                    // Si se cumple esta condicion quiere decir que no existe ese nombre en la base
+                    if(cursor_usuarios.getCount() == 0)
+                    {
+                    /*
+                    // Cargo el cursor de la base para obtener los registros de Usuarios
                     cursor_usuarios = manejador_db.CargarCursor_Usuarios();
 
-                    // Abro la tabla de gastos
+                    // Cargo el cursor de la base para obtener los registros de Gastos
                     cursor_gastos = manejador_db.CargarCursor_Gastos();
 
                     cursor_usuarios.moveToFirst();
@@ -125,6 +139,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
                             }
                             else
                                 {
+                                    // Si no es igual aumento el cursor para saltar a la proxima fila
                                 indice_buscador++;
                                 cursor_usuarios.moveToNext();
                             }
@@ -138,44 +153,57 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
                             // Si entro aca la base de datos esta vacia, no comparo a ver si esta repetido el usuario
                             Usuario_repetido=false;
                         }
-                    }
+                    }*/
 
-                    if (Usuario_repetido == false)
-                    {
+                //    if (Usuario_repetido == false)
+                //    {
                         // Recibo la posicion del Listview que se presiono del MainActivity
                         Bundle extras = getIntent().getExtras();
                         assert extras != null;
                         int Reg_int = extras.getInt("Registro_interno");
 
-                        // Voy hasta el ultimo registro
-                        cursor_usuarios.moveToLast();
-                        cursor_gastos.moveToLast();
+                        // Cargo el cursor para recorrer la tabla usuarios
+                        cursor_usuarios = manejador_db.CargarCursor_Usuarios();
 
-                        // Inserto los datos en la tabla uruarios
-                        manejador_db.insertar_usuarios(Usuario_ingresado, Password_ingresado,"NO");
-                        // Innserto los datos en la tabla gastos
-                        manejador_db.insertar_gastos(Usuario_ingresado, "hola", 0, 0);
+                        // Cargo el cursor de la base para obtener los registros de Gastos
+                        cursor_gastos = manejador_db.CargarCursor_Gastos();
 
-                        Toast.makeText(ActivityRegistroUsuarios.this, "Usuario Añadido", Toast.LENGTH_SHORT).show();
+                        cursor_usuarios.moveToFirst();
+                        cursor_gastos.moveToFirst();
 
-                        if (Reg_int == 1) {
-                            finish();
-                            Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityPrincipal.class);
-                            startActivity(ActivityAdd);
-                        } else {
-                            finish();
-                            Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityLoginUsuario.class);
-                            startActivity(ActivityAdd);
+                    //    if ((cursor_usuarios != null) && (cursor_usuarios.getCount()>0) &&(cursor_gastos != null) && (cursor_gastos.getCount()>0))
+                        if ((cursor_usuarios != null) && (cursor_gastos != null))
+                        {
+                            // Voy hasta el ultimo registro
+                            cursor_usuarios.moveToLast();
+                            cursor_gastos.moveToLast();
+
+                            // Inserto los datos en la tabla uruarios
+                            manejador_db.insertar_usuarios(Usuario_ingresado, Password_ingresado, "NO");
+                            // Innserto los datos en la tabla gastos
+                            manejador_db.insertar_gastos(Usuario_ingresado, "hola", 0, 0);
+
+                            Toast.makeText(ActivityRegistroUsuarios.this, "Usuario Añadido", Toast.LENGTH_SHORT).show();
+
+                            if (Reg_int == 1) {
+                                finish();
+                                Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityPrincipal.class);
+                                startActivity(ActivityAdd);
+                            } else {
+                                finish();
+                                Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityLoginUsuario.class);
+                                startActivity(ActivityAdd);
+                            }
                         }
                     }
                     else
                     {
+                       // Toast.makeText(ActivityRegistroUsuarios.this, "Usuario ya existente", Toast.LENGTH_SHORT).show();
                         Toast.makeText(ActivityRegistroUsuarios.this, "Usuario ya existente", Toast.LENGTH_SHORT).show();
                     }
                     // Cierro las bases de datos y los cursores
                     manejador_db.CerrarBaseDatos();
                     cursor_usuarios.close();
-                    cursor_gastos.close();
                 }
             }
         });

@@ -78,19 +78,24 @@ public class ActivityModificarUsuario extends AppCompatActivity
             Boton_Modificar.setTypeface(The27Club);
         }
 
+        // Seteo los textos con la fuente precargada
         Usuario_modificar_text.setText("USUARIO:");
         Contraseña_modificar_text.setText("CONTRASEÑA:");
         Boton_Modificar.setText("MODIFICAR USUARIO");
 
+        //**********************************************************************************************
+        // Boton MODIFICAR USUARIO - Reemplaza el usuario seleccionado por el ingresado
+        //**********************************************************************************************
         Boton_Modificar.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
+                // Extraigo los datos ingresados
                 String Usuario_new = Usuario_modificar.getText().toString();
-
                 String Contraseña_new = Contraseña_modificar.getText().toString();
 
+                // Chequeo si no ingresaron datos vacios
                 if((Usuario_new != null) && (Contraseña_new != null))
                 {
                     // Recibo el nombre del Listview que se presiono del MainActivity
@@ -98,53 +103,72 @@ public class ActivityModificarUsuario extends AppCompatActivity
                     assert extras != null;
                     String Usuario_press = extras.getString("Usuario_press");
 
+                    // Instancio un objeto para manejar la base de datos
                     manejador_db= new DataBaseManager(ActivityModificarUsuario.this);
 
-                    cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",Usuario_press);
+                    // Hago una consulta para ver si existe ese usuario en la base de datos
+                    cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",Usuario_new);
 
-                    cursor_gastos = manejador_db.Query_Gastos(Usuario_press);
-
-                    if(cursor_usuarios != null && cursor_usuarios.getCount()>0 && cursor_gastos != null && cursor_gastos.getCount()>0)
+                    // Si se cumple esta condicion quiere decir que no existe ese nombre en la base
+                    if(cursor_usuarios.getCount() == 0)
                     {
-                        cursor_usuarios.moveToFirst();
+                        // Hago una consulta a la base para traerme los datos del usuario que quiero modificar
+                        cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",Usuario_press);
 
-                        // Tomo los datos de la tabla de usuarios para actualizar el Usuario. Debo mejorar esto
-                        Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
+                        // Hago una consulta a la base para traerme los gastos de ese Usuario
+                        cursor_gastos = manejador_db.Query_Gastos(Usuario_press);
 
-                        // Modifico el usuario
-                        manejador_db.modificar_usuarios(Usuario_new,Contraseña_new,"SI",Id_BD);
+                        // Chequeo que obtenga el cursor correctamente
+                        if(cursor_usuarios != null && cursor_usuarios.getCount()>0 && cursor_gastos != null && cursor_gastos.getCount()>0)
+                        {
+                            cursor_usuarios.moveToFirst();
 
-                        cursor_gastos.moveToFirst();
+                            // Tomo los datos de la tabla de usuarios para actualizar el Usuario
+                            Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
 
-                        do {
+                            // Modifico el usuario
+                            manejador_db.modificar_usuarios(Usuario_new,Contraseña_new,"SI",Id_BD);
 
-                            // Tomo los datos de la tabla de usuarios para actualizar el Usuario. Debo mejorar esto
-                            Id_BD = cursor_gastos.getInt(cursor_gastos.getColumnIndex("_id"));
-                            Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
-                            Debe_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("Debe"));
-                            Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
+                            cursor_gastos.moveToFirst();
 
-                            // Modifico la tabla de gastos
-                            manejador_db.modificar_gastos(Usuario_new, Descripcion_BD, Debe_BD, Afavor_BD, Id_BD);
-                            indice_modificacion++;
-                            cursor_gastos.moveToNext();
+                            do {
 
-                        }while(indice_modificacion < cursor_gastos.getCount());
+                                // Tomo los datos de la tabla de Gastos para actualizar el nombre correspondiente a ese el Usuario
+                                Id_BD = cursor_gastos.getInt(cursor_gastos.getColumnIndex("_id"));
+                                Descripcion_BD = cursor_gastos.getString(cursor_gastos.getColumnIndex("descripcion"));
+                                Debe_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("Debe"));
+                                Afavor_BD = cursor_gastos.getFloat(cursor_gastos.getColumnIndex("AFavor"));
 
-                        manejador_db.CerrarBaseDatos();
-                        cursor_usuarios.close();
-                        cursor_gastos.close();
+                                // Modifico la tabla de gastos
+                                manejador_db.modificar_gastos(Usuario_new, Descripcion_BD, Debe_BD, Afavor_BD, Id_BD);
 
-                        Toast.makeText(ActivityModificarUsuario.this,"Usuario modificado",Toast.LENGTH_SHORT).show();
+                                // Aumento el indice para obtener el proximo registro
+                                indice_modificacion++;
+                                cursor_gastos.moveToNext();
 
-                        finish();
-                        Intent Activity_Main_Modificar = new Intent(ActivityModificarUsuario.this, ActivityPrincipal.class);
-                        startActivity(Activity_Main_Modificar);
+                            }while(indice_modificacion < cursor_gastos.getCount());
+
+                            Toast.makeText(ActivityModificarUsuario.this,"Usuario modificado",Toast.LENGTH_SHORT).show();
+
+                            // Vuelvo a la actividad principal
+                            finish();
+                            Intent Activity_Main_Modificar = new Intent(ActivityModificarUsuario.this, ActivityPrincipal.class);
+                            startActivity(Activity_Main_Modificar);
+                        }
+                        else
+                        {
+                            Toast.makeText(ActivityModificarUsuario.this,"Error al modificar",Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                     else
-                    {
-                        Toast.makeText(ActivityModificarUsuario.this,"Error al modificar",Toast.LENGTH_SHORT).show();
-                    }
+                        {
+                             Toast.makeText(ActivityModificarUsuario.this,"Usuario ya existente",Toast.LENGTH_SHORT).show();
+                        }
+
+                      // Cierro la base de datos y el cursor
+                      manejador_db.CerrarBaseDatos();
+                      cursor_usuarios.close();
                 }
                 else
                 {
