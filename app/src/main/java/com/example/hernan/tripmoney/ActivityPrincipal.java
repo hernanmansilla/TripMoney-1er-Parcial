@@ -19,7 +19,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
-
+//**********************************************************************************************
+// Clase de la actividad principal de la aplicacion
+//**********************************************************************************************
 public class ActivityPrincipal extends AppCompatActivity
 {
     private static DataBaseManager manejador_db;

@@ -17,6 +17,9 @@ import static com.example.hernan.tripmoney.ActivitySplashScreen.Decalled;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.Delicious;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
+//**********************************************************************************************
+// Clase de la actividad donde se registra un nuevo usuario
+//**********************************************************************************************
 public class ActivityRegistroUsuarios extends AppCompatActivity
 {
     private static DataBaseManager manejador_db;

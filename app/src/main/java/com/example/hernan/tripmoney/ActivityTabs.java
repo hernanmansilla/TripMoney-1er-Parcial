@@ -20,6 +20,9 @@ import static com.example.hernan.tripmoney.ActivitySplashScreen.Decalled;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.Delicious;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
+//********************************************************************************
+// Clase de la activity donde contiene las tabs
+//********************************************************************************
 public class ActivityTabs extends AppCompatActivity
 {
     private static DataBaseManager manejador_db;

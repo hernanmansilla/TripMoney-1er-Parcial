@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import static com.example.hernan.tripmoney.SQLite.NOMBRE_DB;
 
+//**********************************************************************************************
+// Clase de la actividad donde se cambian las configuraciones de la aplicacion
+//**********************************************************************************************
 public class ActivitySettings extends PreferenceActivity
 {
     private DataBaseManager manejador_db;
@@ -86,7 +89,6 @@ public class ActivitySettings extends PreferenceActivity
             }
 
         });
-
     }
 
     //**********************************************************************************************

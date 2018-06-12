@@ -16,6 +16,9 @@ import static com.example.hernan.tripmoney.ActivitySplashScreen.Decalled;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.Delicious;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
+//**********************************************************************************************
+// Clase de la actividad donde se modifica el usuario
+//**********************************************************************************************
 public class ActivityModificarUsuario extends AppCompatActivity
 {
     private DataBaseManager manejador_db;

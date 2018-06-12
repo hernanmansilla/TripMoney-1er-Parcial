@@ -1,6 +1,5 @@
 package com.example.hernan.tripmoney;
 
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
@@ -10,6 +9,9 @@ import android.view.Window;
 import java.util.Timer;
 import java.util.TimerTask;
 
+//**********************************************************************************************
+// Clase de la actividad donde se genera el SplashScreen
+//**********************************************************************************************
 public class ActivitySplashScreen extends AppCompatActivity
 {
     private static final long SPLASH_SCREEN_DELAY = 3000;
@@ -20,9 +22,9 @@ public class ActivitySplashScreen extends AppCompatActivity
     public static String fuente2;
     public static String fuente3;
 
-    //*****************************************************************************
+    //********************************************************************************
     // Funcion Principal de la activity
-    //*****************************************************************************
+    //********************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

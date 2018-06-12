@@ -1,6 +1,5 @@
 package com.example.hernan.tripmoney;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -18,6 +17,9 @@ import static com.example.hernan.tripmoney.ActivitySplashScreen.Decalled;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.Delicious;
 import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
+//**********************************************************************************************
+// Clase de la actividad donde se loguea un nuevo usuario
+//**********************************************************************************************
 public class ActivityLoginUsuario extends AppCompatActivity
 {
     public TextView Usuario_text;
