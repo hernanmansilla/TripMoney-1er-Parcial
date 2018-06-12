@@ -21,6 +21,7 @@
         android:layout_toStartOf="@+id/ListaAfavor_usuario"
         android:textAlignment="center"
         android:textAllCaps="false"
+        android:text="A FAVOR:"
         android:textColor="#309d41"
         android:textSize="16sp"
         android:textStyle="normal|bold" />
