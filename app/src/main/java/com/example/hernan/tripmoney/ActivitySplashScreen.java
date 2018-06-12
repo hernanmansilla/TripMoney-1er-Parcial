@@ -1,23 +1,18 @@
 package com.example.hernan.tripmoney;
 
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ActivitySplashScreen extends AppCompatActivity
 {
     private static final long SPLASH_SCREEN_DELAY = 3000;
-    private static SharedPreferences pref;
-    private static String Tipo_Fuente;
     public static Typeface Decalled;
     public static Typeface Delicious;
     public static Typeface The27Club;
@@ -25,11 +20,13 @@ public class ActivitySplashScreen extends AppCompatActivity
     public static String fuente2;
     public static String fuente3;
 
+    //*****************************************************************************
+    // Funcion Principal de la activity
+    //*****************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
 
         // Definimos la orientación de la SplashScreen como Portrait (vertical)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -37,6 +34,9 @@ public class ActivitySplashScreen extends AppCompatActivity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash_screen);
 
+        //*****************************************************************************
+        // Funcion que atiene el vencimiento del timer del splash
+        //*****************************************************************************
         TimerTask task = new TimerTask()
         {
             @Override
@@ -50,17 +50,12 @@ public class ActivitySplashScreen extends AppCompatActivity
                 finish();
             }
         };
+
         // Simulamos con un timer un tiempo de espera definido en una constante al comienzo
         Timer timer = new Timer();
         timer.schedule(task, SPLASH_SCREEN_DELAY);
 
-        // Cargo el tipo de moneda de mi aplicacion que se puede modificar en las settings
-      //  SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-      //  pref = PreferenceManager.getDefaultSharedPreferences(SplashScreen.this);
-
-        // Obtengo el tipo de moneda
-      //  Tipo_Fuente = pref.getString("Tipo_Fuente","FUENTE1");
-
+        // Mientras que corre el timer cargo las fuentes de la aplicacion
         fuente1 = "Fuentes/Decalled.ttf";
         this.Decalled = Typeface.createFromAsset(getAssets(),fuente1);
         fuente2 = "Fuentes/Delicious.ttf";

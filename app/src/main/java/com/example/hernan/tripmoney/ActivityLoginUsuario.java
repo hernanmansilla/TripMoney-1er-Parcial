@@ -33,13 +33,16 @@ public class ActivityLoginUsuario extends AppCompatActivity
     public int Id_BD;
     private int  indice_buscador=0;
     public boolean Usuario_OK=false;
-    private Toolbar toolbar_loguin;
+    public Toolbar toolbar_loguin;
     public static String Tipo_Fuente;
     public static SharedPreferences pref;
     private static DataBaseManager manejador_db;
     private static Cursor cursor_usuarios;
-    private TextView Registrate_text;
+    public TextView Registrate_text;
 
+    //*****************************************************************************
+    // Inflo el toolbar con los botones
+    //*****************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -64,7 +67,7 @@ public class ActivityLoginUsuario extends AppCompatActivity
         // Selecciono el tipo de fuente
         pref = PreferenceManager.getDefaultSharedPreferences(ActivityLoginUsuario.this);
 
-        // Obtengo el tipo de fuente
+        // Obtengo el tipo de fuente y dejo por defecto la 1 por si ocurre un error
         Tipo_Fuente = pref.getString("Tipo_Fuente","FUENTE1");
 
         // De acuerdo al tipo de fuente guardada, selecciono la fuente para las letras
@@ -189,6 +192,7 @@ public class ActivityLoginUsuario extends AppCompatActivity
             public void onClick(View view)
             {
                 finish();
+                // Le paso la indicacion de que no quiero un registro dentro de la aplicacion
                 Intent Activity2 = new Intent(ActivityLoginUsuario.this, ActivityRegistroUsuarios.class);
                 Activity2.putExtra("Registro_interno",0);
                 startActivity(Activity2);

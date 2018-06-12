@@ -18,10 +18,9 @@ import static com.example.hernan.tripmoney.ActivitySplashScreen.The27Club;
 
 public class ActivityModificarUsuario extends AppCompatActivity
 {
-    private static DataBaseManager manejador_db;
-    private static Cursor cursor_gastos;
+    private DataBaseManager manejador_db;
+    private Cursor cursor_gastos;
     private Cursor cursor_usuarios;
-
     private EditText Usuario_modificar;
     private EditText Contraseña_modificar;
     private Button Boton_Modificar;
@@ -37,29 +36,35 @@ public class ActivityModificarUsuario extends AppCompatActivity
     private TextView Contraseña_modificar_text;
     private int indice_modificacion;
 
+    //*****************************************************************************
+    // Funcion Principal de la activity
+    //*****************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificar_usuario);
 
-        Usuario_modificar_text = (TextView) findViewById(R.id.Usuario_modificar_text);
-        Contraseña_modificar_text = (TextView) findViewById(R.id.Constraseña_modificar_text);
-        Usuario_modificar = (EditText) findViewById(R.id.Usuario_modificar);
-        Contraseña_modificar = (EditText) findViewById(R.id.Constraseña_modificar);
-        Boton_Modificar = (Button) findViewById(R.id.Boton_modificar);
-        toolbar_MainActivityModificar = (Toolbar) findViewById(R.id.toolbar);
+        // Referencio los recursos del XML
+        Usuario_modificar_text = findViewById(R.id.Usuario_modificar_text);
+        Contraseña_modificar_text =findViewById(R.id.Constraseña_modificar_text);
+        Usuario_modificar = findViewById(R.id.Usuario_modificar);
+        Contraseña_modificar = findViewById(R.id.Constraseña_modificar);
+        Boton_Modificar =findViewById(R.id.Boton_modificar);
+        toolbar_MainActivityModificar =findViewById(R.id.toolbar);
 
+        // Genero el toolbar
         setSupportActionBar(toolbar_MainActivityModificar);
         getSupportActionBar().setTitle("      T  R  I  P   M  O  N  E  Y");
         toolbar_MainActivityModificar.setSubtitle("Modificar Usuario");
 
-        // Selecciono el tipo de fuente
+        // Instancio una clase del preference para manejar las settings
         pref = PreferenceManager.getDefaultSharedPreferences(ActivityModificarUsuario.this);
 
-        // Obtengo el tipo de moneda
+        // Obtengo el tipo de fuente y dejo por defecto la 1 por si ocurre un error
         Tipo_Fuente = pref.getString("Tipo_Fuente","FUENTE1");
 
+        // De acuerdo al tipo de fuente guardada, selecciono la fuente para las letras
         if (Tipo_Fuente.equals("FUENTE1")) {
             Usuario_modificar_text.setTypeface(Decalled);
             Contraseña_modificar_text.setTypeface(Decalled);
@@ -178,7 +183,9 @@ public class ActivityModificarUsuario extends AppCompatActivity
         });
     }
 
-    // Si toco el boton atras finalizo esta actividad
+    //**********************************************************************************************
+    // Si presiono el boton atras finalizo esta actividad
+    //**********************************************************************************************
     @Override
     public void onBackPressed()
     {

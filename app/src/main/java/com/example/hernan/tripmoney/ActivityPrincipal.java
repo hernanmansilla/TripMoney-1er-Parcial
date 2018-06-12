@@ -5,7 +5,6 @@ package com.example.hernan.tripmoney;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,13 +32,15 @@ public class ActivityPrincipal extends AppCompatActivity
     private int  indice_buscador_usuarios=0;
     private int  indice_buscador_gastos=0;
     private int  AFavor_Total=0;
-    private ListView ListaDatos;
+    private ListView ListaUsuarios;
     private int indice_eliminar_gastos;
     private String Usuario_Logueado_BD;
 
-    ArrayList<DatosListViewPrincipal> Lista;
+    ArrayList<DatosListViewPrincipal> ListaDatos;
 
+    //*****************************************************************************
     // Inflo el toolbar con los botones
+    //*****************************************************************************
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -48,13 +49,17 @@ public class ActivityPrincipal extends AppCompatActivity
         return true;
     }
 
+    //*****************************************************************************
     // Analizo los botones del toolbar
+    //*****************************************************************************
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
         switch (menuItem.getItemId())
         {
+            // Boton para agregar un nuevo Usuario
             case R.id.Agregar:
 
+                // Salto a otra activity para agregar un nuevo Usuario
                 finish();
                 Intent ActivityAdd = new Intent(ActivityPrincipal.this, ActivityRegistroUsuarios.class);
                 ActivityAdd.putExtra("Registro_interno",1);
@@ -62,9 +67,10 @@ public class ActivityPrincipal extends AppCompatActivity
 
                 break;
 
-            // Aca va la settings
-            case R.id.Editar:
+            // Boton para acceder a la activity para la configuracion de la aplicacion
+            case R.id.Settings:
 
+                // Salto a otra activity para modificar la configuracion de la aplicacion
                 finish();
                 Intent Activity2 = new Intent(ActivityPrincipal.this, ActivitySettings.class);
                 startActivity(Activity2);
@@ -74,6 +80,9 @@ public class ActivityPrincipal extends AppCompatActivity
         return true;
     }
 
+    //*****************************************************************************
+    // Inflo el menu contextual cuando se mantiene presionado un item del Listview
+    //*****************************************************************************
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -88,24 +97,29 @@ public class ActivityPrincipal extends AppCompatActivity
         }
     }
 
+    //********************************************************************************
+    // Funcion que atiene la seleccion de algun item del menu contextual
+    //********************************************************************************
     @Override
     public boolean onContextItemSelected(MenuItem item)
      {
+         // Obtengo la informacion del item seleccionado
          final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
+         // Instancio un objeto para manejar la base de datos
          manejador_db = new DataBaseManager(ActivityPrincipal.this);
 
-         cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",Lista.get(info.position).getNombre());
+         // Hago una consulta a la base de datos con el nombre que corresponde al item que seleccione
+         cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",ListaDatos.get(info.position).getNombre());
 
          cursor_usuarios.moveToFirst();
 
          if((cursor_usuarios != null && cursor_usuarios.getCount()>0))
          {
-             // Me posiciono en el ID que corresponde al item que quiero modificar
-            // cursor_usuarios.move(Lista.get(info.position).getId());
-
+             // Consulto si el usuario seleccionado fue logueado para que te permita hacer modificaciones sobre ese usuario
              Usuario_Logueado_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("uslogueado"));
 
+             // Si es el logueado le permito hacer acciones sobre el menu contextual
              if(Usuario_Logueado_BD.equals("SI"))
              {
                  switch (item.getItemId())
@@ -114,45 +128,39 @@ public class ActivityPrincipal extends AppCompatActivity
 
                          finish();
                          Intent Activity_Main_Modificar = new Intent(ActivityPrincipal.this, ActivityModificarUsuario.class);
-                         // Le paso a traves de un intent el id del item que toque para modificarlo
-                         Activity_Main_Modificar.putExtra("Usuario_press",Lista.get(info.position).getNombre());
+                         // Le paso a traves de un intent el usuario del item que toque para modificarlo
+                         Activity_Main_Modificar.putExtra("Usuario_press",ListaDatos.get(info.position).getNombre());
                          startActivity(Activity_Main_Modificar);
 
                          return true;
 
                      case R.id.Eliminar:
 
+                         // Genero un cuadro de alerta para preguntar si se quiere eliminar el usuario
                          AlertDialog.Builder builder = new AlertDialog.Builder(ActivityPrincipal.this);
                          builder.setMessage("Confirma borrar este usuario?");
-                         builder.setTitle("Esto es el titulo");
+                         builder.setTitle(ListaDatos.get(info.position).getNombre());
 
+                         // En caso de presionar SI, entro a esta funcion
                          builder.setPositiveButton("SI", new DialogInterface.OnClickListener()
                          {
                              @Override
                              public void onClick(DialogInterface dialog, int which)
                              {
-                                 // Aca tengo que borrar la base de datos
-                            //     manejador_db = new DataBaseManager(ActivityPrincipal.this);
-
-                                 // HAGO ESTO PORQUE NO SE PORQUE NO ME DEJA BORRAR DIRECTAMENTE ELIMINAR POR NOMBRE
-
-                            //     cursor_gastos = manejador_db.Query_Gastos(Lista.get(info.position).getNombre());
+                                 // Obtengo el id del nombre
                                  Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
 
                                  // Elimino el registro de la tabla de usuarios
                                  manejador_db.eliminar_Usuarios(Id_BD);
 
                                  // Hago una query para traerme todos los id que corresponden al usuario
-                                 cursor_gastos = manejador_db.Query_Gastos(Lista.get(info.position).getNombre());
+                                 cursor_gastos = manejador_db.Query_Gastos(ListaDatos.get(info.position).getNombre());
 
                                  if((cursor_gastos != null && cursor_gastos.getCount()>0))
                                  {
                                      indice_eliminar_gastos=0;
 
                                      cursor_gastos.moveToFirst();
-                                     // Para saltearme el hola
-                                     //    cursor_gastos.moveToNext();
-                                     //    indice_eliminar_gastos++;
 
                                      do {
                                          // Consulto todos los id del nombre
@@ -161,13 +169,16 @@ public class ActivityPrincipal extends AppCompatActivity
                                          // Elimino de la tabla el registro del gasto
                                          manejador_db.eliminar_Gastos(Id_BD);
 
+                                         // Incremento el indice
                                          cursor_gastos.moveToNext();
                                          indice_eliminar_gastos++;
 
                                      }while(indice_eliminar_gastos < cursor_gastos.getCount());
                                  }
 
+                                 // Cierro la base de datos y el cursor
                                  manejador_db.CerrarBaseDatos();
+                                 cursor_usuarios.close();
                                  cursor_gastos.close();
 
                                  Toast.makeText(ActivityPrincipal.this, "Registro eliminado", Toast.LENGTH_SHORT).show();
@@ -181,11 +192,13 @@ public class ActivityPrincipal extends AppCompatActivity
                              }
                          });
 
+                         // En caso de presionar NO, entro a esta funcion
                          builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
                          {
                              @Override
                              public void onClick(DialogInterface dialog, int which)
                              {
+                                 // Cierro el aviso
                                  dialog.cancel();
                              }
                          });
@@ -205,24 +218,26 @@ public class ActivityPrincipal extends AppCompatActivity
          return super.onContextItemSelected(item);
     }
 
+    //*****************************************************************************
+    // Funcion Principal de la activity
+    //*****************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        toolbar_MainActivity = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar_MainActivity);
+        // Referencio los recursos del XML
+        toolbar_MainActivity = findViewById(R.id.toolbar);
+        ListaUsuarios = findViewById(R.id.ListaPersonas);
 
+        // Genero el toolbar
+        setSupportActionBar(toolbar_MainActivity);
         getSupportActionBar().setTitle("       T  R  I  P   M  O  N  E  Y");
 
-     //  cuentas = new Cuentas();
+        // Genero una instancia del ArrayList
+        ListaDatos = new ArrayList<DatosListViewPrincipal>();
 
-        ListaDatos = (ListView)findViewById(R.id.ListaPersonas);
-
-        Lista = new ArrayList<DatosListViewPrincipal>();
-
-        // Aca tengo que levantar de la base de datos los usuarios
         // Abro la base de datos y tomo el cursor para ver mis usuarios y cargarlos en el listview
         manejador_db = new DataBaseManager(ActivityPrincipal.this);
 
@@ -259,28 +274,34 @@ public class ActivityPrincipal extends AppCompatActivity
                         } while (indice_buscador_gastos < cursor_gastos.getCount());
 
                         // Inserto en mi objeto para mostrar en el listview
-                        Lista.add(new DatosListViewPrincipal(Nombre_BD, 0, AFavor_Total, R.mipmap.ic_launcher));
+                        ListaDatos.add(new DatosListViewPrincipal(Nombre_BD, 0, AFavor_Total, R.mipmap.ic_launcher));
                     }
 
+                    // Aumento el indice
                     indice_buscador_usuarios++;
                     cursor_usuarios.moveToNext();
 
                 }while (indice_buscador_usuarios <cursor_usuarios.getCount());
 
+            // Cierro la base de dato y los cursores
             manejador_db.CerrarBaseDatos();
             cursor_usuarios.close();
             cursor_gastos.close();
         }
 
-        AdaptadorListViewPrincipal adaptador = new AdaptadorListViewPrincipal(getApplicationContext(),Lista);
+        // Instancio mi clase creada adaptador con los datos ya precargados
+        AdaptadorListViewPrincipal adaptador = new AdaptadorListViewPrincipal(getApplicationContext(),ListaDatos);
 
-        ListaDatos.setAdapter(adaptador);
+        // Referencio el adaptador con la lista del XML
+        ListaUsuarios.setAdapter(adaptador);
 
         // Registro los controles para el menu contextual, detecta la pulsacion prolongada
-        registerForContextMenu(ListaDatos);
+        registerForContextMenu(ListaUsuarios);
 
-        // Analizo el click del listview
-        ListaDatos.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        //*****************************************************************************
+        // Funcion que atiende el click de un item del listview
+        //*****************************************************************************
+        ListaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id)
@@ -289,18 +310,20 @@ public class ActivityPrincipal extends AppCompatActivity
                 manejador_db = new DataBaseManager(ActivityPrincipal.this);
 
                 // Hago una query con este usuario para saber si esta logueado
-                cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",Lista.get(position).getNombre());
+                cursor_usuarios = manejador_db.Query_Usuarios("nombre=?",ListaDatos.get(position).getNombre());
 
                 cursor_usuarios.moveToFirst();
 
                 if(cursor_usuarios != null && cursor_usuarios.getCount()>0)
                 {
+                    // Me fijo si el usuario del item seleccionado esta logueado para darle permiso de modificar sus datos
                     String estado_logueado = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("uslogueado"));
 
                     finish();
                     Intent Activity2 = new Intent(ActivityPrincipal.this, ActivityTabs.class);
-                    //     Activity2.putExtra("ID_gastos",Lista.get(position).getId());
-                    Activity2.putExtra("Nombre_usu", Lista.get(position).getNombre());
+
+                    // Le paso el nombre y el estado del logueo del usuario correspondiente al item selecionado
+                    Activity2.putExtra("Nombre_usu", ListaDatos.get(position).getNombre());
                     Activity2.putExtra("Estado_logueo_usu", estado_logueado);
                     startActivity(Activity2);
                 }
@@ -312,14 +335,17 @@ public class ActivityPrincipal extends AppCompatActivity
         });
     }
 
-    // Si toco el boton atras finalizo esta actividad
+    //**********************************************************************************************
+    // Si presiono el boton atras finalizo esta actividad y vuelvo a la activity anterior
+    //**********************************************************************************************
     @Override
     public void onBackPressed()
     {
+        // Creo un alerta para preguntar si deseo salir de la aplicacion
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityPrincipal.this);
-    //    builder.setMessage("Salir de la aplicacion?");
         builder.setTitle("Salir de la aplicacion?");
 
+        // En caso de presionar SI, entro a esta funcion
         builder.setPositiveButton("SI", new DialogInterface.OnClickListener()
         {
             @Override
@@ -336,15 +362,15 @@ public class ActivityPrincipal extends AppCompatActivity
 
                 if(cursor_usuarios != null && cursor_usuarios.getCount()>0)
                 {
+                    // Obtengo los datos del usuario
                     int Id_BD = cursor_usuarios.getInt(cursor_usuarios.getColumnIndex("_id"));
-
                     String Usuario_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("nombre"));
-
                     String Password_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("password"));
 
                     // Lo dejo como deslogueado al usuario
                     manejador_db.modificar_usuarios(Usuario_BD,Password_BD,"NO",Id_BD);
 
+                    // Cierro la base de datos y el cursor
                     manejador_db.CerrarBaseDatos();
                     cursor_usuarios.close();
                 }
@@ -353,13 +379,15 @@ public class ActivityPrincipal extends AppCompatActivity
                     Toast.makeText(ActivityPrincipal.this,"Error",Toast.LENGTH_SHORT).show();
                 }
 
+                // Finalizo la alerta
                 dialog.cancel();
 
+                // Finalizo la activity cerrando la aplicacion
                 finish();
-                onBackPressed();
-
             }
         });
+
+        // En caso de presionar NO, entro a esta funcion
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
         {
             @Override

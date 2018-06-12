@@ -81,7 +81,6 @@ public class DataBaseManager
         db.insert(NOMBRE_TABLA_GASTOS,null,generarContentValues_gastos(nombre,desc,debe,afavor));
     }
 
-
     public void eliminar_Usuarios(int id)
     {
         db.delete(NOMBRE_TABLA_USUARIOS, COLUMNA_ID + "=" + id,null);
@@ -94,17 +93,11 @@ public class DataBaseManager
 
     public void modificar_usuarios(String nombre,String contraseña, String logueado, int id)
     {
-        //   float ValorGuardado_Debe = (float) (Math.round (NuevoDebe * 100)/100.0);
-        //   float ValorGuardado_AFavor = (float) (Math.round (NuevoAFavor * 100)/100.0);
-
         db.update(NOMBRE_TABLA_USUARIOS, generarContentValues_usuarios(nombre,contraseña,logueado),COLUMNA_ID + "=" + id,null);
     }
 
     public void modificar_gastos(String nombre,String descripcion, float NuevoDebe, float NuevoAFavor, int id)
     {
-     //   float ValorGuardado_Debe = (float) (Math.round (NuevoDebe * 100)/100.0);
-     //   float ValorGuardado_AFavor = (float) (Math.round (NuevoAFavor * 100)/100.0);
-
         db.update(NOMBRE_TABLA_GASTOS, generarContentValues_gastos(nombre,descripcion,NuevoDebe,NuevoAFavor),COLUMNA_ID + "=" + id,null);
     }
 
@@ -152,14 +145,5 @@ public class DataBaseManager
         // Tambien elimino la tabla gastos porque si no tengo usuarios no tengo gastos
         db.execSQL("DROP TABLE IF EXISTS gastos");
         db.execSQL(DataBaseManager.TABLA_GASTOS);
-     //   db.execSQL(DataBaseManager.NOMBRE_TABLA_USUARIOS);
     }
-
-    public void EliminarTablaBaseDatos_Gastos()
-    {
-        db.execSQL("DROP TABLE IF EXISTS gastos");
-        db.execSQL(DataBaseManager.TABLA_GASTOS);
-    //    db.execSQL(DataBaseManager.NOMBRE_TABLA_GASTOS);
-    }
-
 }

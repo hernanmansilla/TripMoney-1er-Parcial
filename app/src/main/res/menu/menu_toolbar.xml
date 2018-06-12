@@ -11,8 +11,8 @@
 
     <item
         android:icon="@android:drawable/ic_menu_preferences"
-        android:title="Editar"
-        android:id="@+id/Editar"
+        android:title="Settings"
+        android:id="@+id/Settings"
         app:showAsAction="ifRoom">
 
     </item>

@@ -33,40 +33,48 @@ public class ActivityTabs extends AppCompatActivity
     private float Afavor_BD;
     private Toolbar toolbar_Main2Activity;
     private ListView ListaDescripciones;
-    ArrayList<DatosListViewDescripcion> ListaDesc;
     private int indice_buscador_descripciones=0;
     public static String Tipo_Fuente;
     public static SharedPreferences pref;
     private TextView Descripcion_text;
     private TextView Gasto_nuevo_text;
 
+    ArrayList<DatosListViewDescripcion> ListaDesc;
+
+    //*****************************************************************************
+    // Funcion Principal de la activity
+    //*****************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
 
-        Descripcion_text = (TextView) findViewById(R.id.Descripcion_text);
-        Gasto_nuevo_text = (TextView) findViewById(R.id.Gasto_nuevo_text);
-        Gasto_nuevo_string = (EditText) findViewById(R.id.Gasto_nuevo);
-        Descripcion_gasto = (EditText) findViewById(R.id.Descripcion);
-        Boton_agregar_gasto = (Button) findViewById(R.id.Boton_agregar_gasto);
-        toolbar_Main2Activity = (Toolbar) findViewById(R.id.toolbar);
+        // Referencio los recursos del XML
+        Descripcion_text = findViewById(R.id.Descripcion_text);
+        Gasto_nuevo_text = findViewById(R.id.Gasto_nuevo_text);
+        Gasto_nuevo_string = findViewById(R.id.Gasto_nuevo);
+        Descripcion_gasto = findViewById(R.id.Descripcion);
+        Boton_agregar_gasto =  findViewById(R.id.Boton_agregar_gasto);
+        toolbar_Main2Activity = findViewById(R.id.toolbar);
 
+        // Obtengo el usuario que corresponde al item seleciconado
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         String Usuario_Activo = extras.getString("Nombre_usu");
 
+        // Genero el toolbar
         setSupportActionBar(toolbar_Main2Activity);
         getSupportActionBar().setTitle("            T  R  I  P   M  O  N  E  Y");
         toolbar_Main2Activity.setSubtitle(Usuario_Activo);
 
-        // Selecciono el tipo de fuente
+        // Instancio una clase del preference para manejar las settings
         pref = PreferenceManager.getDefaultSharedPreferences(ActivityTabs.this);
 
-        // Obtengo el tipo de moneda
+        // Obtengo el tipo de fuente y dejo por defecto la 1 por si ocurre un error
         Tipo_Fuente = pref.getString("Tipo_Fuente","FUENTE1");
 
+        // De acuerdo al tipo de fuente guardada, selecciono la fuente para las letras
         if (Tipo_Fuente.equals("FUENTE1"))
         {
             Descripcion_text.setTypeface(Decalled);
@@ -86,6 +94,7 @@ public class ActivityTabs extends AppCompatActivity
             Boton_agregar_gasto.setTypeface(The27Club);
         }
 
+        // Seteo los textos con la fuente precargada
         Descripcion_text.setText("DESCRIPCION:");
         Gasto_nuevo_text.setText("GASTO NUEVO:");
         Boton_agregar_gasto.setText("AGREGAR GASTO");
@@ -108,34 +117,46 @@ public class ActivityTabs extends AppCompatActivity
 
         tabs.setCurrentTab(0);
 
+        // Obtengo de la actividad principal el permiso del usuario seleccionado
         Bundle extras1 = getIntent().getExtras();
         assert extras1 != null;
         String estado_logueo = extras1.getString("Estado_logueo_usu");
 
-        // Esto quiere decir que el usuario no es el logueado, no le doy permiso de agregar un gasto nuevo
+        // Si no es el usuario seleccionado, deshabilito el boton para que no pueda agregar un usuario nuevo
         if(estado_logueo.equals("NO"))
             Boton_agregar_gasto.setEnabled(false);
         else
             Boton_agregar_gasto.setEnabled(true);
 
+        //**********************************************************************************************
+        // Boton AGREGAR GASTO - Agrega un nuevo gasto al usuario
+        //**********************************************************************************************
         Boton_agregar_gasto.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
+                // Obtengo el gasto ingresado
                 String Gasto = Gasto_nuevo_string.getText().toString();
+
+                // Lo transformo a Float
                 Gasto_nuevo = Float.parseFloat(Gasto);
 
+                // Obtengo la descripcion del gasto
                 Descripcion = Descripcion_gasto.getText().toString();
 
+                // Chequeo que los datos ingresados sean validos
                 if((Gasto_nuevo !=0) && (Descripcion != null) && !Descripcion.isEmpty())
                 {
-                    // Recibo los datos del MainActivity
+                    // Recibo el usuario ingresado
                     Bundle extras1 = getIntent().getExtras();
                     assert extras1 != null;
                     String nombre_usuario = extras1.getString("Nombre_usu");
 
+                    // Abro la base de datos y tomo el cursor para manejar la tabla usuarios
                     manejador_db = new DataBaseManager(ActivityTabs.this);
+
+                    // Obtengo el cursor
                     cursor_gastos = manejador_db.CargarCursor_Gastos();
 
                     if (cursor_gastos != null && cursor_gastos.getCount() > 0)
@@ -143,11 +164,15 @@ public class ActivityTabs extends AppCompatActivity
                         // Agrego el nuevo registro al final de la tabla
                         cursor_gastos.moveToLast();
 
+                        // Inserto el nuevo registro en la tabla
                         manejador_db.insertar_gastos(nombre_usuario, Descripcion, 0,  Gasto_nuevo);
                     }
+
+                    // Cierro la base de datos y el cursor
                     manejador_db.CerrarBaseDatos();
                     cursor_gastos.close();
 
+                    // Vuelvo a la actividad principal
                     finish();
                     Intent Activity_Main_Modificar = new Intent(ActivityTabs.this, ActivityPrincipal.class);
                     startActivity(Activity_Main_Modificar);
@@ -158,14 +183,21 @@ public class ActivityTabs extends AppCompatActivity
             }
         });
 
+        //**********************************************************************************************
+        // Funcion que se llama cuando se produce un evento en las tabas
+        //**********************************************************************************************
         tabs.setOnTabChangedListener(new TabHost.OnTabChangeListener()
         {
+            //**********************************************************************************************
+            // Funcion que se llama cuando se produce un cambio de tabs
+            //**********************************************************************************************
             @Override
             public void onTabChanged(String tabID)
             {
+                // Chequeo a que tabs voy
                if(tabID == "mitab2")
                {
-                   ListaDescripciones = (ListView)findViewById(R.id.ListaDescripciones);
+                   ListaDescripciones = findViewById(R.id.ListaDescripciones);
 
                    ListaDesc = new ArrayList<DatosListViewDescripcion>();
 
@@ -198,20 +230,23 @@ public class ActivityTabs extends AppCompatActivity
                            // Inserto en mi objeto para mostrar en el listview
                            ListaDesc.add(new DatosListViewDescripcion(Nombre_usu, Descripcion_BD, Afavor_BD));
 
+                           // Aumento el indice y el cursor
                            indice_buscador_descripciones++;
-
                            cursor_gastos.moveToNext();
 
                        }while(indice_buscador_descripciones < cursor_gastos.getCount());
                    }
 
+                   // Instancio mi clase creada adaptador con los datos ya precargados
                    AdaptadorListviewDescripcion adaptador1 = new AdaptadorListviewDescripcion(getApplicationContext(),ListaDesc);
 
+                   // Referencio el adaptador con la lista del XML
                    ListaDescripciones.setAdapter(adaptador1);
 
                    // Registro los controles para el menu contextual, detecta la pulsacion prolongada
                    registerForContextMenu(ListaDescripciones);
 
+                   // Cierro la base de datos y el cursor
                    manejador_db.CerrarBaseDatos();
                    cursor_gastos.close();
                }
@@ -219,7 +254,9 @@ public class ActivityTabs extends AppCompatActivity
         });
     }
 
-    // Si toco el boton atras finalizo esta actividad
+    //**********************************************************************************************
+    // Si presiono el boton atras finalizo esta actividad y vuelvo a la activity anterior
+    //**********************************************************************************************
     @Override
     public void onBackPressed()
     {

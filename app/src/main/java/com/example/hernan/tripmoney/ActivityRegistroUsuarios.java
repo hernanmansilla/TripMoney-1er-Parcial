@@ -36,6 +36,9 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
     private TextView Usuario_registrar_text;
     private TextView Contraseña_registrar_text;
 
+    //*****************************************************************************
+    // Funcion Principal de la activity
+    //*****************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState)
      {
@@ -85,7 +88,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
         Contraseña_registrar_text.setText("CONTRASEÑA:");
         Boton_registrar.setText("REGISTRAR");
 
-         //**********************************************************************************************
+        //**********************************************************************************************
         // Boton REGISTRAR - Registra un nuevo usuario en la base de datos
         //**********************************************************************************************
         Boton_registrar.setOnClickListener(new View.OnClickListener()
@@ -112,52 +115,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
                     // Si se cumple esta condicion quiere decir que no existe ese nombre en la base
                     if(cursor_usuarios.getCount() == 0)
                     {
-                    /*
-                    // Cargo el cursor de la base para obtener los registros de Usuarios
-                    cursor_usuarios = manejador_db.CargarCursor_Usuarios();
-
-                    // Cargo el cursor de la base para obtener los registros de Gastos
-                    cursor_gastos = manejador_db.CargarCursor_Gastos();
-
-                    cursor_usuarios.moveToFirst();
-                    cursor_gastos.moveToFirst();
-
-                    if ((cursor_usuarios != null) && (cursor_usuarios.getCount()>0))
-                    {
-                        indice_buscador = 0;
-                        Usuario_repetido = false;
-
-                        // Chequeo ya si el usuario esta ingresado
-                        // Busco la posicion para insertar el nuevo usuario
-                        do {
-                            Usuario_BD = cursor_usuarios.getString(cursor_usuarios.getColumnIndex("nombre"));
-
-                            // Comparo si el usuario y contraseña es correcto
-                            if (Usuario_ingresado.equals(Usuario_BD))
-                            {
-                                Usuario_repetido = true;
-                            }
-                            else
-                                {
-                                    // Si no es igual aumento el cursor para saltar a la proxima fila
-                                indice_buscador++;
-                                cursor_usuarios.moveToNext();
-                            }
-                        }
-                        while ((indice_buscador < cursor_usuarios.getCount()) && (Usuario_repetido == false));
-                    }
-                    else
-                    {
-                        if(cursor_usuarios.getCount()==0)
-                        {
-                            // Si entro aca la base de datos esta vacia, no comparo a ver si esta repetido el usuario
-                            Usuario_repetido=false;
-                        }
-                    }*/
-
-                //    if (Usuario_repetido == false)
-                //    {
-                        // Recibo la posicion del Listview que se presiono del MainActivity
+                        // Recibo la indicacion si se viene del listview principal o del registro del loguin
                         Bundle extras = getIntent().getExtras();
                         assert extras != null;
                         int Reg_int = extras.getInt("Registro_interno");
@@ -171,21 +129,22 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
                         cursor_usuarios.moveToFirst();
                         cursor_gastos.moveToFirst();
 
-                    //    if ((cursor_usuarios != null) && (cursor_usuarios.getCount()>0) &&(cursor_gastos != null) && (cursor_gastos.getCount()>0))
                         if ((cursor_usuarios != null) && (cursor_gastos != null))
                         {
-                            // Voy hasta el ultimo registro
+                            // Voy hasta el ultimo registro para agregar el nuevo al final
                             cursor_usuarios.moveToLast();
                             cursor_gastos.moveToLast();
 
                             // Inserto los datos en la tabla uruarios
                             manejador_db.insertar_usuarios(Usuario_ingresado, Password_ingresado, "NO");
-                            // Innserto los datos en la tabla gastos
+                            // Inserto los datos en la tabla gastos
                             manejador_db.insertar_gastos(Usuario_ingresado, "hola", 0, 0);
 
                             Toast.makeText(ActivityRegistroUsuarios.this, "Usuario Añadido", Toast.LENGTH_SHORT).show();
 
-                            if (Reg_int == 1) {
+                            // Me fijo de donde vengo para saber a donde tengo que retornar
+                            if (Reg_int == 1)
+                            {
                                 finish();
                                 Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityPrincipal.class);
                                 startActivity(ActivityAdd);
@@ -198,7 +157,6 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
                     }
                     else
                     {
-                       // Toast.makeText(ActivityRegistroUsuarios.this, "Usuario ya existente", Toast.LENGTH_SHORT).show();
                         Toast.makeText(ActivityRegistroUsuarios.this, "Usuario ya existente", Toast.LENGTH_SHORT).show();
                     }
                     // Cierro las bases de datos y los cursores
@@ -210,7 +168,9 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
 
     }
 
-    // Si toco el boton atras finalizo esta actividad
+    //**********************************************************************************************
+    // Si presiono el boton atras finalizo esta actividad y vuelvo a la activity anterior
+    //**********************************************************************************************
     @Override
     public void onBackPressed()
     {
@@ -220,6 +180,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
 
         finish();
 
+        // De acuerdo al registro interno, vuelvo a la actividad principal porque la llame desde la aplicacion
         if (Reg_int == 1)
         {
             Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityPrincipal.class);
