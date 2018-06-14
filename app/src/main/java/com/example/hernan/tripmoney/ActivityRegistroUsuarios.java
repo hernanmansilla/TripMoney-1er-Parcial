@@ -189,6 +189,11 @@ public class ActivityRegistroUsuarios extends AppCompatActivity
             Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityPrincipal.class);
             startActivity(ActivityAdd);
         }
+        else
+        {
+            Intent ActivityAdd = new Intent(ActivityRegistroUsuarios.this, ActivityLoginUsuario.class);
+            startActivity(ActivityAdd);
+        }
         super.onBackPressed();
     }
 }

@@ -187,7 +187,7 @@ public class ActivityTabs extends AppCompatActivity
         });
 
         //**********************************************************************************************
-        // Funcion que se llama cuando se produce un evento en las tabas
+        // Funcion que se llama cuando se produce un evento en las tabs
         //**********************************************************************************************
         tabs.setOnTabChangedListener(new TabHost.OnTabChangeListener()
         {

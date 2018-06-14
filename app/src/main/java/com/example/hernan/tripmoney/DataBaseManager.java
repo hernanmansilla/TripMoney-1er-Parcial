@@ -41,8 +41,6 @@ public class DataBaseManager
             + COLUMNA_PASSWORD + " text not null,"
             + COLUMNA_USUARIO_LOGUEADO + " text not null);";
 
-
-
     //**********************************************************************************************
     // Constructor de la clase
     //**********************************************************************************************
